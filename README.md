@@ -12,12 +12,16 @@ Website for **The Sterling Club** — Christmas lighting, gutter cleaning, mobil
 
 ## Things to update before going live
 
-Search for these placeholders and replace them with your real info:
+Everything below is a placeholder. Search `index.html` for it and replace it with your real info:
 
-- `(555) 555-5555` and `+15555555555` in `index.html` — your phone number
-- `hello@thesterlingclub.com` in `index.html` **and** `script.js` — your email
-- `[Your City]` in `index.html` — your service area
-- Hours (`Mon–Sat, 8am–6pm`) in `index.html`
+- **Phone:** `(555) 555-5555` and `+15555555555`
+- **Email:** `hello@thesterlingclub.com` (also in `script.js`; that's where quote requests go)
+- **Service area:** `[Your City]`
+- **Hours:** `Monday to Saturday, 8am to 6pm`
+- **Prices:** the "From $..." amounts in the Services section (search for `$299`, `$129`, `$149`, `$79`, `$189`)
+- **Membership:** the Sterling ($49) and Platinum ($99) prices and what's included
+- **Reviews:** the three sample reviews under "What members say". Swap in real customer reviews. Don't publish the samples.
+- **Photos:** the before/after sliders use drawn placeholders. To use real photos, upload them to an `images` folder and follow the note in `styles.css` (search for `Placeholder "photos"`).
 
 You can edit any file right on GitHub: open the file, click the pencil icon, make changes, then click **Commit changes**.
 
