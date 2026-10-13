@@ -1,7 +1,7 @@
 // ===== The Sterling Club — site scripts =====
 
 // Where quote requests are sent. Change this to your real email address.
-const BUSINESS_EMAIL = "hello@thesterlingclub.com";
+const BUSINESS_EMAIL = "reserve@thesterlingclub.com";
 
 document.documentElement.classList.add("js");
 document.getElementById("year").textContent = new Date().getFullYear();

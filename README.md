@@ -13,11 +13,10 @@ Website for **The Sterling Club** — Christmas lighting, gutter cleaning, mobil
 
 ## Things to update before going live
 
-Everything below is a placeholder. Search `index.html` for it and replace it with your real info:
+Contact details are set: (786) 488-9561, reserve@thesterlingclub.com, Houston area.
 
-- **Phone:** `(555) 555-5555` and `+15555555555`
-- **Email:** `hello@thesterlingclub.com` (also in `script.js`; that's where quote requests go)
-- **Service area:** `[Your City]`
+These are still placeholders. Search `index.html` for them and replace them with your real info:
+
 - **Hours:** `Monday to Saturday, 8am to 6pm`
 - **Prices:** the "from $..." amounts at the bottom of each service column
 - **Membership:** the Sterling ($49) and Crown ($99) prices and what's included
