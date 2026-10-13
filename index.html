@@ -3,15 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Sterling Club | Home &amp; Auto Services That Come to You</title>
-  <meta name="description" content="The Sterling Club: Christmas light installation, gutter cleaning, mobile detailing, and mobile mechanic services (oil changes, brakes, tune-ups). Year-round care for your home and car, at your door." />
-  <meta name="theme-color" content="#0d0e11" />
+  <title>The Sterling Club | Premium Home &amp; Auto Services, Every Season</title>
+  <meta name="description" content="The Sterling Club: Christmas light installation, gutter cleaning, pressure washing, mobile detailing, and mobile mechanic services (oil changes, brakes, tune-ups). Premium services, every season, at your location." />
+  <meta name="theme-color" content="#070605" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <!-- Shared gold gradient and icons (used throughout the page) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fbe9b4" />
+        <stop offset=".45" stop-color="#d9ad55" />
+        <stop offset=".7" stop-color="#f1d184" />
+        <stop offset="1" stop-color="#9c7027" />
+      </linearGradient>
+    </defs>
+    <symbol id="i-crown" viewBox="0 0 64 58">
+      <path d="M9 42 5 13l15 14L32 5l12 22 15-14-4 29Z" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linejoin="round" />
+      <path d="M9 50h46" stroke="url(#gold)" stroke-width="3" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-house" viewBox="0 0 64 64">
+      <g fill="none" stroke="url(#gold)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M6 31 32 9l26 22" />
+        <path d="M13 26v30h38V26" />
+        <path d="M27 56V44a5 5 0 0 1 10 0v12" />
+        <path d="M44 17V9h6v13" />
+      </g>
+      <g fill="url(#gold)">
+        <circle cx="13" cy="30" r="1.9" /><circle cx="19" cy="25" r="1.9" /><circle cx="25" cy="20" r="1.9" />
+        <circle cx="32" cy="15" r="1.9" /><circle cx="39" cy="20" r="1.9" /><circle cx="45" cy="25" r="1.9" /><circle cx="51" cy="30" r="1.9" />
+      </g>
+    </symbol>
+    <symbol id="i-car" viewBox="0 0 64 64">
+      <g fill="none" stroke="url(#gold)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M8 42l4-13q2-7 9-7h22q7 0 9 7l4 13v9h-8v-4H16v4H8Z" />
+        <path d="M17 33l3-6h24l3 6Z" />
+        <path d="M12 39h8M44 39h8M26 42h12" />
+      </g>
+      <path d="M52 8l1.5 4.5L58 14l-4.5 1.5L52 20l-1.5-4.5L46 14l4.5-1.5Z" fill="url(#gold)" />
+    </symbol>
+    <symbol id="i-gear" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="21" fill="none" stroke="url(#gold)" stroke-width="7" stroke-dasharray="6.6 4.4" />
+      <circle cx="32" cy="32" r="16" fill="none" stroke="url(#gold)" stroke-width="2.4" />
+      <path d="M23 41l12-12" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" />
+      <path d="M33 23.5a6.5 6.5 0 1 0 7.5 7.5l-3.6-.9-1.9-1.9-.9-3.6Z" fill="url(#gold)" />
+    </symbol>
+    <symbol id="i-home" viewBox="0 0 32 32">
+      <path d="M4 15 16 5l12 10M8 12v15h16V12M13 27v-7h6v7" fill="none" stroke="url(#gold)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" />
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 32 32">
+      <path d="M16 29s9-8.5 9-15a9 9 0 0 0-18 0c0 6.5 9 15 9 15Z" fill="none" stroke="url(#gold)" stroke-width="1.6" stroke-linejoin="round" />
+      <circle cx="16" cy="14" r="3.2" fill="none" stroke="url(#gold)" stroke-width="1.6" />
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 32 32">
+      <path d="M16 3 6 7v8c0 7 4.5 11.5 10 14 5.5-2.5 10-7 10-14V7Z" fill="none" stroke="url(#gold)" stroke-width="1.6" stroke-linejoin="round" />
+      <path d="m11.5 16 3.2 3.2 6-6.5" fill="none" stroke="url(#gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-diamond" viewBox="0 0 32 32">
+      <path d="M9 5h14l6 7-13 16L3 12Zm-6 7h26M12 5l-2 7 6 16 6-16-2-7" fill="none" stroke="url(#gold)" stroke-width="1.6" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 32 32">
+      <g fill="none" stroke="url(#gold)" stroke-width="1.6" stroke-linecap="round">
+        <rect x="4" y="7" width="24" height="21" rx="2" /><path d="M4 13h24M10 4v6M22 4v6" />
+      </g>
+      <g fill="url(#gold)"><rect x="9" y="17" width="3" height="3" /><rect x="14.5" y="17" width="3" height="3" /><rect x="20" y="17" width="3" height="3" /><rect x="9" y="22" width="3" height="3" /><rect x="14.5" y="22" width="3" height="3" /></g>
+    </symbol>
+  </svg>
 
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -19,7 +81,7 @@
   <header class="site-header">
     <div class="wrap nav">
       <a href="#top" class="brand" aria-label="The Sterling Club, back to top">
-        <span class="brand-seal" aria-hidden="true">S</span>
+        <svg class="brand-crown" aria-hidden="true"><use href="#i-crown" /></svg>
         <span class="brand-name">The Sterling Club</span>
       </a>
       <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
@@ -39,119 +101,152 @@
 
     <!-- ============ Hero ============ -->
     <section class="hero" id="top">
-      <div class="wrap">
-        <p class="hero-kicker">Home and auto care, delivered to your driveway</p>
-        <h1 class="hero-title">
-          <span class="hero-the">The</span>
-          <span class="metal sheen" data-text="Sterling">Sterling</span>
-          <span class="hero-club">Club</span>
+      <div class="wrap hero-head">
+        <svg class="hero-crown" aria-hidden="true"><use href="#i-crown" /></svg>
+        <h1 class="wordmark">
+          <span class="wm-the"><span class="rule" aria-hidden="true"></span>The<span class="rule" aria-hidden="true"></span></span>
+          <span class="wm-name gold-text" data-text="Sterling Club">Sterling Club</span>
         </h1>
-        <div class="hero-foot">
-          <p class="hero-lede">
-            Christmas lights, gutters, detailing, and mobile mechanic work from one crew
-            you can trust all year. We bring the tools. You keep your weekend.
-          </p>
-          <div class="hero-actions">
-            <a href="#quote" class="btn">Get a free quote</a>
-            <a href="#membership" class="btn btn-ghost">Join the club</a>
-          </div>
+        <p class="hero-tagline">Premium services <span aria-hidden="true">&bull;</span> Every season</p>
+      </div>
+
+      <div class="panels">
+        <a class="panel" href="#svc-home">
+          <img src="images/lights.jpg" alt="Large home outlined in warm white Christmas lights at night" />
+          <span class="panel-body">
+            <svg class="panel-icon" aria-hidden="true"><use href="#i-house" /></svg>
+            <span class="panel-title">Home services</span>
+            <span class="panel-list">Lighting <i>&bull;</i> Gutters <i>&bull;</i> Pressure washing</span>
+          </span>
+        </a>
+        <a class="panel" href="#svc-detail">
+          <img src="images/detail.jpg" alt="Gloved hand drying a glossy black SUV" />
+          <span class="panel-body">
+            <svg class="panel-icon" aria-hidden="true"><use href="#i-car" /></svg>
+            <span class="panel-title">Mobile detailing</span>
+            <span class="panel-list">Exterior <i>&bull;</i> Interior <i>&bull;</i> Paint protection</span>
+          </span>
+        </a>
+        <a class="panel" href="#svc-mechanic">
+          <img src="images/mechanic.jpg" alt="Mechanic working on an engine with a ratchet" />
+          <span class="panel-body">
+            <svg class="panel-icon" aria-hidden="true"><use href="#i-gear" /></svg>
+            <span class="panel-title">Mobile mechanic</span>
+            <span class="panel-list">Oil changes <i>&bull;</i> Brakes <i>&bull;</i> Tune-ups</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="wrap hero-foot">
+        <p class="motto"><span class="rule" aria-hidden="true"></span>One club. Multiple services. A higher standard.<span class="rule" aria-hidden="true"></span></p>
+        <div class="hero-actions">
+          <a href="#quote" class="btn">Get a free quote</a>
+          <a href="#membership" class="btn btn-ghost">Join the club</a>
         </div>
-        <ul class="hero-index" aria-label="Our services">
-          <li><a href="#svc-lights">Christmas lighting</a></li>
-          <li><a href="#svc-gutters">Gutter cleaning</a></li>
-          <li><a href="#svc-detail">Mobile detailing</a></li>
-          <li><a href="#svc-mechanic">Mobile mechanic</a></li>
-        </ul>
       </div>
     </section>
 
+    <!-- ============ Promise strip ============ -->
+    <section class="promises" aria-label="Why choose us">
+      <ul class="wrap promise-list">
+        <li><svg aria-hidden="true"><use href="#i-home" /></svg>Residential &amp; commercial</li>
+        <li><svg aria-hidden="true"><use href="#i-pin" /></svg>Mobile service at your location</li>
+        <li><svg aria-hidden="true"><use href="#i-shield" /></svg>Reliable &amp; professional</li>
+        <li><svg aria-hidden="true"><use href="#i-diamond" /></svg>High-quality results</li>
+        <li><svg aria-hidden="true"><use href="#i-calendar" /></svg>Year-round services</li>
+      </ul>
+    </section>
+
     <!-- ============ Services ============ -->
+    <!-- Prices are placeholders: replace the amounts with your own. -->
     <section class="section" id="services">
       <div class="wrap">
         <header class="section-head reveal">
-          <h2>Four services, one standard</h2>
-          <p>Every job is done at your home or office, priced before we start, and backed by our make-it-right guarantee.</p>
+          <svg class="head-crown" aria-hidden="true"><use href="#i-crown" /></svg>
+          <h2>Our services</h2>
+          <p>Every job is done at your home or business, priced before we start, and backed by our make-it-right guarantee.</p>
         </header>
 
-        <!-- Edit prices here. "From" prices are placeholders — replace with your own. -->
-        <div class="menu">
-
-          <article class="menu-row reveal" id="svc-lights">
-            <p class="menu-season">November to January</p>
-            <h3 class="menu-name">Christmas lighting</h3>
-            <div class="menu-body">
-              <p>Custom holiday light design, professional installation, and takedown after the season. Commercial-grade LEDs, no ladders for you.</p>
-              <ul>
-                <li>Rooflines, trees, shrubs, and walkways</li>
-                <li>Free mid-season bulb replacement</li>
-                <li>Takedown and off-season storage</li>
-              </ul>
-            </div>
-            <p class="menu-price"><span>From</span> $299</p>
+        <div class="services">
+          <article class="service reveal" id="svc-home">
+            <svg class="service-icon" aria-hidden="true"><use href="#i-house" /></svg>
+            <h3>Home services</h3>
+            <ul class="checks">
+              <li>Custom Christmas light design &amp; layout</li>
+              <li>Professional installation</li>
+              <li>Maintenance &amp; bulb repairs all season</li>
+              <li>Takedown &amp; storage</li>
+              <li>Wreaths, trees &amp; accents</li>
+              <li>Permanent &amp; temporary lighting</li>
+              <li>Gutter cleaning &amp; downspout flushing</li>
+              <li>Moss removal &amp; pressure washing</li>
+            </ul>
+            <dl class="prices">
+              <div><dt>Christmas lighting</dt><dd>from $299</dd></div>
+              <div><dt>Gutter cleaning</dt><dd>from $129</dd></div>
+              <div><dt>Moss &amp; pressure washing</dt><dd>from $149</dd></div>
+            </dl>
           </article>
 
-          <article class="menu-row reveal" id="svc-gutters">
-            <p class="menu-season">Spring and fall</p>
-            <h3 class="menu-name">Gutter cleaning</h3>
-            <div class="menu-body">
-              <p>Full debris removal and downspout flushing, so rain goes away from your roof and foundation instead of into them.</p>
-              <ul>
-                <li>Hand-cleared and bagged, roof edges blown off</li>
-                <li>Downspouts flushed and tested</li>
-                <li>Before and after photos sent to you</li>
-              </ul>
-            </div>
-            <p class="menu-price"><span>From</span> $129</p>
+          <article class="service reveal" id="svc-detail">
+            <svg class="service-icon" aria-hidden="true"><use href="#i-car" /></svg>
+            <h3>Mobile detailing</h3>
+            <ul class="checks">
+              <li>Exterior hand wash</li>
+              <li>Interior deep clean</li>
+              <li>Clay bar &amp; iron decontamination</li>
+              <li>Buff &amp; polish</li>
+              <li>Ceramic sealant paint protection</li>
+              <li>Headlight restoration</li>
+              <li>Leather &amp; plastic trim conditioning</li>
+              <li>Pet hair removal &amp; ozone odor treatment</li>
+            </ul>
+            <dl class="prices">
+              <div><dt>Interior or exterior</dt><dd>from $149</dd></div>
+              <div><dt>Full detail</dt><dd>from $249</dd></div>
+              <div><dt>Headlight restoration</dt><dd>from $89</dd></div>
+            </dl>
           </article>
 
-          <article class="menu-row reveal" id="svc-detail">
-            <p class="menu-season">Year-round</p>
-            <h3 class="menu-name">Mobile detailing</h3>
-            <div class="menu-body">
-              <p>A showroom finish in your own driveway. We bring water, power, and every product needed.</p>
-              <ul>
-                <li>Hand wash, clay bar, and wax or sealant</li>
-                <li>Interior vacuum, steam, and shampoo</li>
-                <li>Leather cleaning and conditioning</li>
-              </ul>
-            </div>
-            <p class="menu-price"><span>From</span> $149</p>
+          <article class="service reveal" id="svc-mechanic">
+            <svg class="service-icon" aria-hidden="true"><use href="#i-gear" /></svg>
+            <h3>Mobile mechanic</h3>
+            <ul class="checks">
+              <li>Oil &amp; filter changes</li>
+              <li>Brake pads, rotors &amp; fluid</li>
+              <li>Tune-ups &amp; spark plugs</li>
+              <li>Diagnostics &amp; check engine lights</li>
+              <li>Battery, alternator &amp; starter</li>
+              <li>Cooling system service</li>
+              <li>Suspension &amp; steering</li>
+              <li>Pre-purchase inspections</li>
+            </ul>
+            <dl class="prices">
+              <div><dt>Oil change</dt><dd>from $79</dd></div>
+              <div><dt>Brakes, per axle</dt><dd>from $189</dd></div>
+              <div><dt>Tune-up</dt><dd>from $149</dd></div>
+            </dl>
           </article>
-
-          <article class="menu-row reveal" id="svc-mechanic">
-            <p class="menu-season">Year-round</p>
-            <h3 class="menu-name">Mobile mechanic</h3>
-            <div class="menu-body">
-              <p>Routine maintenance and repairs done where your car is parked. No waiting room, no tow truck, no ride needed.</p>
-              <ul class="price-list">
-                <li><span>Oil and filter change</span><span>from $79</span></li>
-                <li><span>Brake pads, per axle</span><span>from $189</span></li>
-                <li><span>Tune-up and spark plugs</span><span>from $149</span></li>
-                <li><span>Battery, belts, and fluids</span><span>quoted</span></li>
-              </ul>
-            </div>
-            <p class="menu-price"><span>From</span> $79</p>
-          </article>
-
         </div>
       </div>
     </section>
 
     <!-- ============ Membership ============ -->
+    <!-- Membership prices and inclusions are placeholders: edit to match your plans. -->
     <section class="section section-panel" id="membership">
       <div class="wrap">
         <header class="section-head reveal">
+          <svg class="head-crown" aria-hidden="true"><use href="#i-crown" /></svg>
           <h2>Join the club</h2>
-          <p>One yearly plan that covers your home and your car through every season, with member pricing on anything extra.</p>
+          <p>One plan that covers your home and your car through every season, with member pricing on anything extra.</p>
         </header>
 
-        <!-- Membership prices and inclusions are placeholders — edit to match your plans. -->
         <div class="tiers">
           <article class="tier reveal">
             <h3>Sterling</h3>
             <p class="tier-price"><span class="amt">$49</span> per month</p>
-            <p class="tier-note">Billed monthly, cancel anytime after 12 months</p>
-            <ul>
+            <p class="tier-note">12-month membership, billed monthly</p>
+            <ul class="checks">
               <li>Gutter cleaning twice a year</li>
               <li>Two full details a year</li>
               <li>Two oil changes a year</li>
@@ -162,62 +257,36 @@
           </article>
 
           <article class="tier tier-feature reveal">
-            <p class="tier-flag">Most complete</p>
-            <h3>Platinum</h3>
+            <svg class="tier-crown" aria-hidden="true"><use href="#i-crown" /></svg>
+            <h3>Crown</h3>
             <p class="tier-price"><span class="amt">$99</span> per month</p>
-            <p class="tier-note">Billed monthly, cancel anytime after 12 months</p>
-            <ul>
-              <li>Christmas lighting installed and removed</li>
+            <p class="tier-note">12-month membership, billed monthly</p>
+            <ul class="checks">
+              <li>Christmas lighting installed &amp; removed</li>
               <li>Gutter cleaning twice a year</li>
               <li>Quarterly full details</li>
-              <li>Four oil changes and a yearly brake check</li>
+              <li>Four oil changes &amp; a yearly brake check</li>
               <li>15% off all repairs</li>
               <li>First pick of holiday install dates</li>
             </ul>
-            <a href="#quote" class="btn" data-service="Membership: Platinum">Choose Platinum</a>
+            <a href="#quote" class="btn" data-service="Membership: Crown">Choose Crown</a>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ============ Our work (before / after) ============ -->
+    <!-- ============ Our work ============ -->
     <section class="section" id="work">
       <div class="wrap">
         <header class="section-head reveal">
-          <h2>The difference, side by side</h2>
-          <p>Drag the handle to compare. Replace these placeholders with photos from your own jobs.</p>
+          <svg class="head-crown" aria-hidden="true"><use href="#i-crown" /></svg>
+          <h2>Our work</h2>
+          <p>Homes that glow, paint that shines, and engines that run right.</p>
         </header>
-
         <div class="gallery">
-          <figure class="compare compare-lg reveal" style="--pos: 50%">
-            <div class="compare-img before ph-detail-before" role="img" aria-label="Before: dull, dirty paint"></div>
-            <div class="compare-img after ph-detail-after" role="img" aria-label="After: polished, glossy paint"></div>
-            <span class="compare-tag tag-before">Before</span>
-            <span class="compare-tag tag-after">After</span>
-            <span class="compare-handle" aria-hidden="true"></span>
-            <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison, mobile detailing" />
-            <figcaption>Mobile detailing: full exterior correction</figcaption>
-          </figure>
-
-          <figure class="compare reveal" style="--pos: 50%">
-            <div class="compare-img before ph-gutter-before" role="img" aria-label="Before: gutter full of leaves"></div>
-            <div class="compare-img after ph-gutter-after" role="img" aria-label="After: clean gutter"></div>
-            <span class="compare-tag tag-before">Before</span>
-            <span class="compare-tag tag-after">After</span>
-            <span class="compare-handle" aria-hidden="true"></span>
-            <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison, gutter cleaning" />
-            <figcaption>Gutter cleaning</figcaption>
-          </figure>
-
-          <figure class="compare reveal" style="--pos: 50%">
-            <div class="compare-img before ph-lights-before" role="img" aria-label="Before: house at night without lights"></div>
-            <div class="compare-img after ph-lights-after" role="img" aria-label="After: house lit with Christmas lights"></div>
-            <span class="compare-tag tag-before">Before</span>
-            <span class="compare-tag tag-after">After</span>
-            <span class="compare-handle" aria-hidden="true"></span>
-            <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison, Christmas lighting" />
-            <figcaption>Christmas lighting</figcaption>
-          </figure>
+          <figure class="g-wide reveal"><img src="images/lights-2.jpg" alt="Two-story home with roofline, palm trees, and Christmas trees lit in warm white" loading="lazy" /><figcaption>Christmas lighting</figcaption></figure>
+          <figure class="reveal"><img src="images/detail-2.jpg" alt="Black SUV covered in foam during a hand wash" loading="lazy" /><figcaption>Mobile detailing</figcaption></figure>
+          <figure class="reveal"><img src="images/mechanic-2.jpg" alt="Technician in a crown hoodie working under the hood of a pickup" loading="lazy" /><figcaption>Mobile mechanic</figcaption></figure>
         </div>
       </div>
     </section>
@@ -227,18 +296,22 @@
     <section class="section section-panel" id="reviews">
       <div class="wrap">
         <header class="section-head reveal">
+          <svg class="head-crown" aria-hidden="true"><use href="#i-crown" /></svg>
           <h2>What members say</h2>
         </header>
         <div class="reviews">
           <blockquote class="review reveal">
+            <p class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
             <p>Replace this with a real review from a happy customer. Two or three sentences about the service they got works best.</p>
             <footer>Customer name, Neighborhood</footer>
           </blockquote>
           <blockquote class="review reveal">
+            <p class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
             <p>Another real review goes here. Mention the service and what stood out, like being on time or leaving the place spotless.</p>
             <footer>Customer name, Neighborhood</footer>
           </blockquote>
           <blockquote class="review reveal">
+            <p class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
             <p>A third real review. Reviews that name a specific service, like an oil change in the office parking lot, are the most convincing.</p>
             <footer>Customer name, Neighborhood</footer>
           </blockquote>
@@ -250,21 +323,22 @@
     <section class="section" id="how">
       <div class="wrap">
         <header class="section-head reveal">
+          <svg class="head-crown" aria-hidden="true"><use href="#i-crown" /></svg>
           <h2>How booking works</h2>
         </header>
         <ol class="steps">
           <li class="reveal">
-            <span class="step-n">1</span>
+            <span class="step-n">I</span>
             <h3>Tell us what you need</h3>
             <p>Send the quote form or call. Include your address, or your vehicle's year, make, and model.</p>
           </li>
           <li class="reveal">
-            <span class="step-n">2</span>
+            <span class="step-n">II</span>
             <h3>Approve your price</h3>
             <p>We reply with a fixed price and a few time slots. Nothing is booked until you say yes.</p>
           </li>
           <li class="reveal">
-            <span class="step-n">3</span>
+            <span class="step-n">III</span>
             <h3>We arrive and handle it</h3>
             <p>On time, fully equipped, and we clean up before we leave. You get photos when we're done.</p>
           </li>
@@ -276,7 +350,8 @@
     <section class="section section-panel" id="faq">
       <div class="wrap wrap-narrow">
         <header class="section-head reveal">
-          <h2>Questions, answered</h2>
+          <svg class="head-crown" aria-hidden="true"><use href="#i-crown" /></svg>
+          <h2>Questions</h2>
         </header>
         <div class="faq">
           <details>
@@ -285,15 +360,15 @@
           </details>
           <details>
             <summary>When should I book Christmas lights?</summary>
-            <p>Install dates fill up from October through early December, so book as early as you can. Platinum members get first pick of dates.</p>
+            <p>Install dates fill up from October through early December, so book as early as you can. Crown members get first pick of dates.</p>
+          </details>
+          <details>
+            <summary>Do you work on businesses as well as homes?</summary>
+            <p>Yes. We light, clean, and maintain commercial properties and service company vehicles and fleets.</p>
           </details>
           <details>
             <summary>Do I need to be home?</summary>
-            <p>No. For car services we need the keys and a safe, level place to work. For gutters and lights we just need access to the outside of the house.</p>
-          </details>
-          <details>
-            <summary>What do I need to provide?</summary>
-            <p>Nothing. We bring our own water, power, tools, parts, and supplies.</p>
+            <p>No. For car services we need the keys and a safe, level place to work. For lights and gutters we just need access to the outside of the property.</p>
           </details>
           <details>
             <summary>Can I combine services in one visit?</summary>
@@ -301,7 +376,7 @@
           </details>
           <details>
             <summary>How does the membership work?</summary>
-            <p>Pick Sterling or Platinum and we schedule your included services through the year. Anything beyond your plan is billed at member pricing.</p>
+            <p>Pick Sterling or Crown and we schedule your included services through the year. Anything beyond your plan is billed at member pricing.</p>
           </details>
         </div>
       </div>
@@ -311,6 +386,7 @@
     <section class="section" id="quote">
       <div class="wrap quote">
         <div class="quote-info reveal">
+          <svg class="head-crown head-crown-left" aria-hidden="true"><use href="#i-crown" /></svg>
           <h2>Get your free quote</h2>
           <p>Tell us what you need. We'll reply with a fixed price, usually the same day.</p>
           <dl class="contact">
@@ -340,10 +416,11 @@
               <option value="">Choose a service</option>
               <option>Christmas lighting</option>
               <option>Gutter cleaning</option>
+              <option>Moss removal &amp; pressure washing</option>
               <option>Mobile detailing</option>
               <option>Mobile mechanic</option>
               <option>Membership: Sterling</option>
-              <option>Membership: Platinum</option>
+              <option>Membership: Crown</option>
               <option>More than one service</option>
             </select>
           </div>
@@ -363,15 +440,10 @@
   <footer class="site-footer">
     <div class="wrap footer">
       <a href="#top" class="brand">
-        <span class="brand-seal" aria-hidden="true">S</span>
+        <svg class="brand-crown" aria-hidden="true"><use href="#i-crown" /></svg>
         <span class="brand-name">The Sterling Club</span>
       </a>
-      <ul class="footer-links">
-        <li><a href="#svc-lights">Christmas lighting</a></li>
-        <li><a href="#svc-gutters">Gutter cleaning</a></li>
-        <li><a href="#svc-detail">Mobile detailing</a></li>
-        <li><a href="#svc-mechanic">Mobile mechanic</a></li>
-      </ul>
+      <p class="footer-motto">One club. Multiple services. A higher standard.</p>
       <p class="copyright">&copy; <span id="year"></span> The Sterling Club</p>
     </div>
   </footer>

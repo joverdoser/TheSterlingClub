@@ -41,14 +41,6 @@ if ("IntersectionObserver" in window) {
   reveals.forEach((el) => el.classList.add("in"));
 }
 
-// Before / after sliders
-document.querySelectorAll(".compare").forEach((fig) => {
-  const range = fig.querySelector("input[type='range']");
-  const update = () => fig.style.setProperty("--pos", `${range.value}%`);
-  range.addEventListener("input", update);
-  update();
-});
-
 // Membership buttons pre-select the plan in the quote form
 const serviceSelect = document.getElementById("f-service");
 document.querySelectorAll("[data-service]").forEach((link) => {

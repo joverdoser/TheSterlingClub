@@ -9,6 +9,7 @@ Website for **The Sterling Club** — Christmas lighting, gutter cleaning, mobil
 | `index.html` | All the page content (text, services, FAQ, contact form) |
 | `styles.css` | Colors, fonts, and layout |
 | `script.js`  | Mobile menu and the quote form |
+| `images/`    | Photos used on the site (cropped from the brand flyers) |
 
 ## Things to update before going live
 
@@ -18,10 +19,10 @@ Everything below is a placeholder. Search `index.html` for it and replace it wit
 - **Email:** `hello@thesterlingclub.com` (also in `script.js`; that's where quote requests go)
 - **Service area:** `[Your City]`
 - **Hours:** `Monday to Saturday, 8am to 6pm`
-- **Prices:** the "From $..." amounts in the Services section (search for `$299`, `$129`, `$149`, `$79`, `$189`)
-- **Membership:** the Sterling ($49) and Platinum ($99) prices and what's included
+- **Prices:** the "from $..." amounts at the bottom of each service column
+- **Membership:** the Sterling ($49) and Crown ($99) prices and what's included
 - **Reviews:** the three sample reviews under "What members say". Swap in real customer reviews. Don't publish the samples.
-- **Photos:** the before/after sliders use drawn placeholders. To use real photos, upload them to an `images` folder and follow the note in `styles.css` (search for `Placeholder "photos"`).
+- **Photos:** to swap a photo, upload a new one into `images/` with the same file name (e.g. `lights.jpg`), or add a new one and change the `src="images/..."` in `index.html`.
 
 You can edit any file right on GitHub: open the file, click the pencil icon, make changes, then click **Commit changes**.
 
