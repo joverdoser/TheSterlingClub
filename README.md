@@ -39,3 +39,7 @@ Download the files and double-click `index.html` to open it in your browser.
 ## How the quote form works
 
 When a visitor submits the form, it opens their email app with a message to you already filled in. If you'd rather receive submissions without the visitor's email app, a free service like [Formspree](https://formspree.io) can be plugged in later.
+
+## If the live site looks out of date
+
+Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=silver-2` → `styles.css?v=silver-3`) so every visitor gets the new file right away.
