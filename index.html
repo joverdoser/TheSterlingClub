@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Sterling Club | Premium Home &amp; Auto Services, Every Season</title>
   <meta name="description" content="The Sterling Club serves the Houston area with Christmas light installation, maintenance and takedown, gutter cleaning, mobile detailing (washes, ceramic coating, buff and polish, headlight restoration), and a mobile mechanic for oil changes, tune-ups and brakes. Call (786) 488-9561." />
-  <meta name="theme-color" content="#08090b" />
+  <meta name="theme-color" content="#0b0b0b" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=silver-2" />
+  <link rel="stylesheet" href="styles.css?v=silver-4" />
 </head>
 <body>
 
@@ -18,9 +18,10 @@
     <defs>
       <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#ffffff" />
-        <stop offset=".45" stop-color="#b9bec6" />
-        <stop offset=".7" stop-color="#eef0f3" />
-        <stop offset="1" stop-color="#6f757e" />
+        <stop offset=".42" stop-color="#bdbdc0" />
+        <stop offset=".52" stop-color="#77777b" />
+        <stop offset=".7" stop-color="#f3f3f4" />
+        <stop offset="1" stop-color="#6e6e72" />
       </linearGradient>
     </defs>
     <symbol id="i-crown" viewBox="0 0 64 58">
@@ -48,10 +49,12 @@
       <path d="M52 8l1.5 4.5L58 14l-4.5 1.5L52 20l-1.5-4.5L46 14l4.5-1.5Z" fill="url(#silver)" />
     </symbol>
     <symbol id="i-gear" viewBox="0 0 64 64">
-      <circle cx="32" cy="32" r="21" fill="none" stroke="url(#silver)" stroke-width="7" stroke-dasharray="6.6 4.4" />
-      <circle cx="32" cy="32" r="16" fill="none" stroke="url(#silver)" stroke-width="2.4" />
-      <path d="M23 41l12-12" stroke="url(#silver)" stroke-width="4.5" stroke-linecap="round" />
-      <path d="M33 23.5a6.5 6.5 0 1 0 7.5 7.5l-3.6-.9-1.9-1.9-.9-3.6Z" fill="url(#silver)" />
+      <g fill="url(#silver)"><rect x="28" y="6" width="8" height="10" rx="1" transform="rotate(0 32 32)" /><rect x="28" y="6" width="8" height="10" rx="1" transform="rotate(45 32 32)" /><rect x="28" y="6" width="8" height="10" rx="1" transform="rotate(90 32 32)" /><rect x="28" y="6" width="8" height="10" rx="1" transform="rotate(135 32 32)" /><rect x="28" y="6" width="8" height="10" rx="1" transform="rotate(180 32 32)" /><rect x="28" y="6" width="8" height="10" rx="1" transform="rotate(225 32 32)" /><rect x="28" y="6" width="8" height="10" rx="1" transform="rotate(270 32 32)" /><rect x="28" y="6" width="8" height="10" rx="1" transform="rotate(315 32 32)" /></g>
+      <circle cx="32" cy="32" r="15.5" fill="none" stroke="url(#silver)" stroke-width="6" />
+      <g fill="none" stroke="url(#silver)" stroke-linecap="round">
+        <path d="M26 38l9-9" stroke-width="4.5" />
+        <path d="M35.6 24.4a4.8 4.8 0 1 0 4 4" stroke-width="3.2" />
+      </g>
     </symbol>
     <symbol id="i-home" viewBox="0 0 32 32">
       <path d="M4 15 16 5l12 10M8 12v15h16V12M13 27v-7h6v7" fill="none" stroke="url(#silver)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" />
@@ -102,7 +105,7 @@
     <!-- ============ Hero ============ -->
     <section class="hero" id="top">
       <div class="wrap hero-head">
-        <svg class="hero-crown" aria-hidden="true"><use href="#i-crown" /></svg>
+        <span class="crown-wrap" aria-hidden="true"><svg class="hero-crown"><use href="#i-crown" /></svg><span class="spark spark-1"></span><span class="spark spark-2"></span><span class="spark spark-3"></span></span>
         <h1 class="wordmark">
           <span class="wm-the"><span class="rule" aria-hidden="true"></span>The<span class="rule" aria-hidden="true"></span></span>
           <span class="wm-name silver-text" data-text="Sterling Club">Sterling Club</span>
@@ -435,6 +438,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=silver-2"></script>
+  <script src="script.js?v=silver-4"></script>
 </body>
 </html>
