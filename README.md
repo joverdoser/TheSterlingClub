@@ -8,20 +8,26 @@ Website for **The Sterling Club** — Christmas lighting, gutter cleaning, mobil
 |------|------------|
 | `index.html` | All the page content (text, services, FAQ, contact form) |
 | `styles.css` | Colors, fonts, and layout |
-| `script.js`  | Mobile menu and the quote form |
-| `images/`    | Photos used on the site (cropped from the brand flyers) |
+| `script.js`  | Interactive parts: estimate calculator, service tabs, reviews carousel, ZIP check, booking form |
+| `images/`    | Photos (from the brand flyers, color-corrected) and generated images |
 
 ## Things to update before going live
 
 Contact details are set: (786) 488-9561, reserve@thesterlingclub.com, Houston area.
 
-These are still placeholders. Search `index.html` for them and replace them with your real info:
+These are still placeholders. Search `index.html` (and `script.js` where noted) and replace them:
 
-- **Hours:** `Monday to Saturday, 8am to 6pm`
-- **Prices:** the "from $..." amounts at the bottom of each service column
-- **Membership:** the Sterling ($49) and Crown ($99) prices and what's included
-- **Reviews:** the three sample reviews under "What members say". Swap in real customer reviews. Don't publish the samples.
-- **Photos:** to swap a photo, upload a new one into `images/` with the same file name (e.g. `lights.jpg`), or add a new one and change the `src="images/..."` in `index.html`.
+- **Hours:** `Monday to Saturday, 8am to 6pm` (also in the `openingHours` line near the top of `index.html`)
+- **Prices:** the "from $..." amounts in each service tab, **and** the `PRICING` list at the top of `script.js` that powers the instant estimate
+- **Membership:** Sterling ($49 / $490) and Crown ($99 / $990) prices and what's included
+- **Reviews:** the four sample reviews. Replace them with real ones before going live, and point the "Leave us a Google review" button at your Google review link
+- **About section:** your story, and replace `images/team.svg` with a real photo of you or your crew
+- **Before/after:** `images/detail-before.jpg` is a computer-made sample. Replace both before/after images with photos from a real job
+- **Photos:** the other photos come from your flyers. Real job photos build the most trust
+- **Social links:** the Instagram, Facebook, TikTok and Google icons in the footer link to `#`
+- **Service area:** the city list and the ZIP check (`SERVED_PREFIXES` in `script.js`)
+- **Payment answer:** the "How do I pay?" FAQ
+- **Announcement bar:** the message at the very top. Change it each season
 
 You can edit any file right on GitHub: open the file, click the pencil icon, make changes, then click **Commit changes**.
 
@@ -42,4 +48,4 @@ When a visitor submits the form, it opens their email app with a message to you 
 
 ## If the live site looks out of date
 
-Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=silver-2` → `styles.css?v=silver-3`) so every visitor gets the new file right away.
+Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=pro-1` → `styles.css?v=pro-2`) so every visitor gets the new file right away.

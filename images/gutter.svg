@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a3d"/><stop offset="1" stop-color="#5d7690"/></linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#d4d6d9"/><stop offset=".55" stop-color="#8c9096"/><stop offset="1" stop-color="#e3e5e8"/></linearGradient>
+    <linearGradient id="pipe" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8c9096"/><stop offset=".4" stop-color="#ffffff"/><stop offset="1" stop-color="#9da1a7"/></linearGradient>
+    <pattern id="shingle" width="60" height="34" patternUnits="userSpaceOnUse">
+      <rect width="60" height="34" fill="#3a3f47"/><rect x="0" y="0" width="29" height="16" fill="#454b54"/><rect x="31" y="0" width="29" height="16" fill="#40464e"/>
+      <rect x="-15" y="17" width="29" height="16" fill="#4a5059"/><rect x="16" y="17" width="29" height="16" fill="#3f454d"/><rect x="47" y="17" width="29" height="16" fill="#474d56"/>
+    </pattern>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e3d6"/><stop offset="1" stop-color="#c9c1b0"/></linearGradient>
+    <radialGradient id="leaf" cx=".4" cy=".4"><stop offset="0" stop-color="#9a7b3c"/><stop offset="1" stop-color="#5e4a22"/></radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="660" cy="80" r="34" fill="#f4f1e6" opacity=".9"/>
+  <polygon points="0,90 800,40 800,250 0,250" fill="url(#shingle)"/>
+  <polygon points="0,90 800,40 800,58 0,108" fill="#2a2e34" opacity=".5"/>
+  <rect x="0" y="262" width="800" height="238" fill="url(#wall)"/>
+  <rect x="120" y="320" width="150" height="130" rx="3" fill="#2d3b4c" stroke="#f2f2f2" stroke-width="10"/>
+  <line x1="195" y1="320" x2="195" y2="450" stroke="#f2f2f2" stroke-width="6"/>
+  <rect x="470" y="320" width="150" height="130" rx="3" fill="#2d3b4c" stroke="#f2f2f2" stroke-width="10"/>
+  <line x1="545" y1="320" x2="545" y2="450" stroke="#f2f2f2" stroke-width="6"/>
+  <rect x="0" y="246" width="800" height="12" fill="#f0f0f0"/>
+  <!-- gutter -->
+  <path d="M0 238 H800 V270 Q800 284 786 284 H14 Q0 284 0 270 Z" fill="url(#metal)"/>
+  <path d="M0 238 H800 V244 H0 Z" fill="#ffffff"/>
+  <!-- clean water flowing -->
+  <path d="M40 252 H700" stroke="#9fd3f5" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+  <!-- downspout -->
+  <rect x="712" y="270" width="40" height="230" fill="url(#pipe)"/>
+  <rect x="706" y="300" width="52" height="10" rx="2" fill="#c9ccd0"/>
+  <rect x="706" y="420" width="52" height="10" rx="2" fill="#c9ccd0"/>
+  <!-- a few leaves being removed -->
+  <ellipse cx="90" cy="226" rx="16" ry="7" transform="rotate(-25 90 226)" fill="url(#leaf)"/>
+  <ellipse cx="120" cy="214" rx="12" ry="5" transform="rotate(20 120 214)" fill="url(#leaf)"/>
+  <ellipse cx="70" cy="200" rx="10" ry="4" transform="rotate(50 70 200)" fill="url(#leaf)"/>
+  <!-- sparkle -->
+  <path d="M430 230 l4 12 12 4 -12 4 -4 12 -4 -12 -12 -4 12 -4z" fill="#ffffff"/>
+  <path d="M600 236 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#ffffff" opacity=".8"/>
+</svg>
