@@ -6,28 +6,27 @@ Website for **The Sterling Club** — Christmas lighting, gutter cleaning, mobil
 
 | File | What it is |
 |------|------------|
-| `index.html` | All the page content (text, services, FAQ, contact form) |
-| `styles.css` | Colors, fonts, and layout |
-| `script.js`  | Interactive parts: estimate calculator, service tabs, reviews carousel, ZIP check, booking form |
-| `images/`    | Photos (from the brand flyers, color-corrected) and generated images |
+| `index.html` | The homepage: services, estimate tool, membership, service area, FAQ, quote form |
+| `privacy.html`, `terms.html`, `cookies.html`, `refunds.html`, `accessibility.html` | Policy pages, linked from every page's footer |
+| `styles.css` | Colors, fonts and layout |
+| `script.js` | Interactive parts: estimate calculator, service tabs, ZIP check, quote form |
+| `images/` | Photos (illustrative, from the brand flyers, with car logos blurred) and generated images |
+| `fonts/` | Self-hosted fonts and their open licenses |
+| `COMPLIANCE.md` | **Read this.** What was checked for legal and accessibility risk, and what's left for you to do |
 
-## Things to update before going live
+## Things to update
 
 Contact details are set: (786) 488-9561, reserve@thesterlingclub.com, Houston area.
 
-These are still placeholders. Search `index.html` (and `script.js` where noted) and replace them:
+Still to do (details in `COMPLIANCE.md`):
 
-- **Hours:** `Monday to Saturday, 8am to 6pm` (also in the `openingHours` line near the top of `index.html`)
-- **Prices:** the "from $..." amounts in each service tab, **and** the `PRICING` list at the top of `script.js` that powers the instant estimate
-- **Membership:** Sterling ($49 / $490) and Crown ($99 / $990) prices and what's included
-- **Reviews:** the four sample reviews. Replace them with real ones before going live, and point the "Leave us a Google review" button at your Google review link
-- **About section:** your story, and replace `images/team.svg` with a real photo of you or your crew
-- **Before/after:** `images/detail-before.jpg` is a computer-made sample. Replace both before/after images with photos from a real job
-- **Photos:** the other photos come from your flyers. Real job photos build the most trust
-- **Social links:** the Instagram, Facebook, TikTok and Google icons in the footer link to `#`
+- **Prices:** the starred "from $..." estimates in each service tab, **and** `PRICING` at the top of `script.js`
+- **Membership:** Sterling and Crown prices and inclusions (labeled as estimates)
+- **About section:** your story, and replace `images/team.svg` with a real photo
+- **Photos:** replace the illustrative photos with photos of your own jobs
 - **Service area:** the city list and the ZIP check (`SERVED_PREFIXES` in `script.js`)
-- **Payment answer:** the "How do I pay?" FAQ
-- **Announcement bar:** the message at the very top. Change it each season
+- **Policies:** once the business is registered, add its legal name to the policy pages, and update the "Effective" date whenever you change a policy
+- **Reviews:** only add real reviews from real customers, with their permission
 
 You can edit any file right on GitHub: open the file, click the pencil icon, make changes, then click **Commit changes**.
 
@@ -44,8 +43,8 @@ Download the files and double-click `index.html` to open it in your browser.
 
 ## How the quote form works
 
-When a visitor submits the form, it opens their email app with a message to you already filled in. If you'd rather receive submissions without the visitor's email app, a free service like [Formspree](https://formspree.io) can be plugged in later.
+When a visitor submits the form (after checking the consent box), it opens their email app with a message to you already filled in. The website itself stores nothing. If you later switch to a form service such as Formspree, that service will receive visitors' details, so update the Privacy Policy first.
 
 ## If the live site looks out of date
 
-Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=pro-1` → `styles.css?v=pro-2`) so every visitor gets the new file right away.
+Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=legal-1` → `styles.css?v=legal-2`) so every visitor gets the new file right away.

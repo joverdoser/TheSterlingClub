@@ -35,14 +35,13 @@ const money = (n) => "$" + Math.round(n).toLocaleString("en-US");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 document.documentElement.classList.add("js");
-$("#year").textContent = new Date().getFullYear();
 
 // ---------- Announcement bar ----------
+// Closes for this visit only. Nothing is stored in the browser.
 const announce = $("#announce");
-try { if (localStorage.getItem("tsc-announce-closed") === "1") announce.classList.add("is-hidden"); } catch (e) {}
 $(".announce-close").addEventListener("click", () => {
   announce.classList.add("is-hidden");
-  try { localStorage.setItem("tsc-announce-closed", "1"); } catch (e) {}
+  $(".site-header .brand").focus();
 });
 
 // ---------- Header, back-to-top, active nav ----------
@@ -76,7 +75,7 @@ const navLinks = $("#nav-links");
 function setMenu(open) {
   navLinks.classList.toggle("open", open);
   toggle.setAttribute("aria-expanded", String(open));
-  toggle.setAttribute("aria-label", open ? "Close menu" : "Menu");
+  toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
 }
 toggle.addEventListener("click", () => setMenu(!navLinks.classList.contains("open")));
 $$("a", navLinks).forEach((a) => a.addEventListener("click", () => setMenu(false)));
@@ -85,15 +84,24 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(fa
 // ---------- Hero slideshow + spotlight ----------
 const slides = $$(".hero-slide");
 const dots = $$(".hero-dots button");
-let slideIdx = 0, slideTimer;
+const pauseBtn = $(".hero-pause");
+let slideIdx = 0, slideTimer, paused = reduceMotion;
 function showSlide(i) {
   slideIdx = (i + slides.length) % slides.length;
   slides.forEach((s, n) => s.classList.toggle("is-active", n === slideIdx));
-  dots.forEach((d, n) => d.classList.toggle("is-active", n === slideIdx));
+  dots.forEach((d, n) => { d.classList.toggle("is-active", n === slideIdx); d.setAttribute("aria-pressed", String(n === slideIdx)); });
 }
-function startSlides() { if (!reduceMotion) slideTimer = setInterval(() => showSlide(slideIdx + 1), 6000); }
-dots.forEach((d, n) => d.addEventListener("click", () => { clearInterval(slideTimer); showSlide(n); startSlides(); }));
-startSlides();
+function startSlides() { clearInterval(slideTimer); if (!paused) slideTimer = setInterval(() => showSlide(slideIdx + 1), 6000); }
+function setPaused(p) {
+  paused = p;
+  pauseBtn.setAttribute("aria-pressed", String(p));
+  pauseBtn.setAttribute("aria-label", p ? "Play background photos" : "Pause background photos");
+  $("use", pauseBtn).setAttribute("href", p ? "#i-play" : "#i-pause");
+  startSlides();
+}
+pauseBtn.addEventListener("click", () => setPaused(!paused));
+dots.forEach((d, n) => d.addEventListener("click", () => { showSlide(n); startSlides(); }));
+setPaused(paused);
 
 const hero = $(".hero");
 const glow = $(".hero-glow");
@@ -115,29 +123,6 @@ if ("IntersectionObserver" in window) {
 } else {
   reveals.forEach((el) => el.classList.add("in"));
 }
-
-// ---------- Animated counters ----------
-function runCounter(el) {
-  const end = Number(el.dataset.count);
-  const start = Number(el.dataset.start || 0);
-  const suffix = el.dataset.suffix || "";
-  if (reduceMotion) { el.textContent = end + suffix; return; }
-  const t0 = performance.now(), dur = 1600;
-  const tick = (t) => {
-    const p = Math.min(1, (t - t0) / dur);
-    const eased = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(start + (end - start) * eased) + suffix;
-    if (p < 1) requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-}
-const counters = $$(".stat-n");
-if ("IntersectionObserver" in window) {
-  const cio = new IntersectionObserver((entries) => {
-    entries.forEach((e) => { if (e.isIntersecting) { runCounter(e.target); cio.unobserve(e.target); } });
-  }, { threshold: .6 });
-  counters.forEach((c) => cio.observe(c));
-} else counters.forEach(runCounter);
 
 // ---------- Service tabs ----------
 const tabs = $$(".tabs [role='tab']");
@@ -253,51 +238,16 @@ const dateInput = $("#f-date");
 const tmr = new Date(Date.now() + 864e5);
 dateInput.min = tmr.toISOString().slice(0, 10);
 
-// ---------- Before / after slider ----------
-$$(".compare").forEach((fig) => {
-  const range = $("input[type='range']", fig);
-  const update = () => fig.style.setProperty("--pos", `${range.value}%`);
-  range.addEventListener("input", update);
-  update();
-});
-
 // ---------- Membership billing toggle ----------
 $$(".billing-toggle button").forEach((b) => b.addEventListener("click", () => {
-  $$(".billing-toggle button").forEach((x) => x.classList.toggle("is-active", x === b));
+  $$(".billing-toggle button").forEach((x) => { x.classList.toggle("is-active", x === b); x.setAttribute("aria-pressed", String(x === b)); });
   const mode = b.dataset.billing;
   $$(".tier [data-monthly]").forEach((el) => { el.textContent = el.dataset[mode]; });
 }));
 
-// ---------- Reviews carousel ----------
-const track = $(".carousel-track");
-const cards = $$(".review", track);
-const dotsWrap = $(".car-dots");
-let carIdx = 0, carTimer;
-const perView = () => (window.innerWidth <= 860 ? 1 : window.innerWidth <= 1000 ? 2 : 3);
-const maxIdx = () => Math.max(0, cards.length - perView());
-function renderDots() {
-  dotsWrap.innerHTML = "";
-  for (let i = 0; i <= maxIdx(); i++) {
-    const d = document.createElement("button");
-    d.setAttribute("aria-label", `Show review ${i + 1}`);
-    d.addEventListener("click", () => { goTo(i); restartCar(); });
-    dotsWrap.appendChild(d);
-  }
-}
-function goTo(i) {
-  carIdx = i > maxIdx() ? 0 : i < 0 ? maxIdx() : i;
-  const step = cards[0].getBoundingClientRect().width + 24;
-  track.style.transform = `translateX(${-carIdx * step}px)`;
-  $$("button", dotsWrap).forEach((d, n) => d.classList.toggle("is-active", n === carIdx));
-}
-function restartCar() { clearInterval(carTimer); if (!reduceMotion) carTimer = setInterval(() => goTo(carIdx + 1), 7000); }
-$(".car-prev").addEventListener("click", () => { goTo(carIdx - 1); restartCar(); });
-$(".car-next").addEventListener("click", () => { goTo(carIdx + 1); restartCar(); });
-window.addEventListener("resize", () => { renderDots(); goTo(Math.min(carIdx, maxIdx())); });
-renderDots(); goTo(0); restartCar();
-
 // ---------- ZIP checker ----------
-// Houston-area ZIP codes start with 770, 772, 773, 774 or 775. Adjust if your area changes.
+// A quick check only: Houston-area ZIP codes start with 770, 772, 773, 774 or 775.
+// Some of those areas may be farther than you travel, so results say "we'll confirm".
 const SERVED_PREFIXES = ["770", "772", "773", "774", "775"];
 $("#zip-form").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -306,10 +256,10 @@ $("#zip-form").addEventListener("submit", (e) => {
   out.className = "zip-result";
   if (!/^\d{5}$/.test(zip)) { out.textContent = "Enter a 5-digit ZIP code."; out.classList.add("no"); return; }
   if (SERVED_PREFIXES.includes(zip.slice(0, 3))) {
-    out.textContent = `Good news: we serve ${zip}. Get your instant estimate or book below.`;
+    out.textContent = `${zip} looks like it's in the Houston area. Request a quote and we'll confirm we can travel to you.`;
     out.classList.add("ok");
   } else {
-    out.textContent = `${zip} is outside our usual area. Call (786) 488-9561 and we'll see what we can do.`;
+    out.textContent = `${zip} may be outside our service area. Call (786) 488-9561 to check.`;
     out.classList.add("no");
   }
 });
@@ -321,17 +271,21 @@ const note = $("#form-note");
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const required = $$("[required]", form);
-  const missing = required.filter((el) => !el.value.trim());
+  const missing = required.filter((el) => (el.type === "checkbox" ? !el.checked : !el.value.trim()));
   required.forEach((el) => el.setAttribute("aria-invalid", String(missing.includes(el))));
   if (missing.length) {
-    const names = missing.map((el) => $(`label[for="${el.id}"]`, form).textContent.trim().toLowerCase());
-    note.textContent = `Add your ${names.join(" and ")} so we can confirm your booking.`;
+    const names = missing.filter((el) => el.type !== "checkbox")
+      .map((el) => $(`label[for="${el.id}"]`, form).textContent.replace("*", "").trim().toLowerCase());
+    const parts = [];
+    if (names.length) parts.push(`add your ${names.join(" and ")}`);
+    if (missing.some((el) => el.type === "checkbox")) parts.push("check the box to agree to be contacted");
+    note.textContent = `To send your request, please ${parts.join(", and ")}.`;
     note.classList.add("error");
     missing[0].focus();
     return;
   }
   const d = new FormData(form);
-  const subject = `Booking request: ${d.get("service")}`;
+  const subject = `Quote request: ${d.get("service")}`;
   const body = [
     `Name: ${d.get("name")}`,
     `Phone: ${d.get("phone")}`,
@@ -341,12 +295,13 @@ form.addEventListener("submit", (event) => {
     `Time window: ${d.get("time")}`,
     `Address / ZIP: ${d.get("address") || "-"}`,
     `Best way to reach: ${d.get("pref")}`,
+    "Agreed to be contacted about this request: Yes",
     "",
     "Details:",
     d.get("message") || "-",
   ].join("\n");
   window.location.href = `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   note.classList.remove("error");
-  note.textContent = "Your email app should open with the request ready. Press send and we'll confirm your price and time.";
+  note.textContent = "Your email app should now be open with your request filled in. Press send there to send it to us. If nothing opened, email reserve@thesterlingclub.com or call (786) 488-9561.";
   form.reset();
 });
