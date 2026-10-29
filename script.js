@@ -3,7 +3,8 @@
 // Where booking requests are sent. Change this to your real email address.
 const BUSINESS_EMAIL = "reserve@thesterlingclub.com";
 
-// Estimate calculator prices (placeholders: keep in sync with the prices on the page).
+// Estimate calculator prices. Keep in sync with the prices on the page.
+// Detailing prices are the owner's real package prices; the other services are still estimates.
 const PRICING = {
   lights: {
     label: "Christmas lighting",
@@ -18,9 +19,15 @@ const PRICING = {
   },
   detail: {
     label: "Mobile detailing",
-    vehicle: [["Car / coupe", 1], ["SUV / truck", 1.2], ["3-row / van", 1.35]],
-    pkg: [["Interior wash", 149], ["Exterior wash", 149], ["Interior + exterior", 249], ["Ceramic coating", 499]],
-    addons: [["Buff & polish", 199], ["Headlight restoration", 89]],
+    vehicle: ["Car (sedan or coupe)", "SUV", "Truck"],
+    // [name, [car, SUV, truck]]
+    packages: [["Signature Detail", [150, 180, 210]], ["Sterling Detail", [220, 250, 290]]],
+    // Optional add-ons: [name, low, high]. Engine bay is included in Sterling (package index 1).
+    optional: [["Engine bay cleaning", 40, 60], ["Stain removal & shampoo extraction", 120, 400]],
+    engineIncludedIn: 1,
+    headlights: [["None", 0], ["One headlight", 75], ["Both headlights", 150]],
+    // Upcharges when the vehicle needs them: [name, low, high]. Open-ended ("+").
+    conditions: [["Pet hair removal", 50, 125], ["Heavy dirt, spills or neglected interior", 25, 150]],
   },
   mechanic: {
     label: "Mobile mechanic",
@@ -164,10 +171,19 @@ function renderOptions(svc) {
     html += `<div class="est-group"><p>${svc === "lights" ? "Roofline to light" : "Gutter length"} (approx.)</p>
       <div class="range-row"><input class="slider" type="range" name="feet" min="${min}" max="${max}" step="10" value="${def}" aria-label="Linear feet" /><output>${def} ft</output></div></div>`;
     if (P.addons) html += `<div class="est-group"><p>Add-ons</p>${chipGroup("addon", P.addons, "checkbox")}</div>`;
+  } else if (svc === "detail") {
+    const chips = (name, labels, type = "radio", checked = 0) => `<div class="chips">${labels.map((l, i) =>
+      `<label class="chip"><input type="${type}" name="${name}" value="${i}" ${type === "radio" && i === checked ? "checked" : ""} /><span>${l}</span></label>`).join("")}</div>`;
+    const range = (lo, hi, open) => lo === hi ? money(lo) : `${money(lo)}–${money(hi)}${open ? "+" : ""}`;
+    html += `<div class="est-group"><p>Vehicle</p>${chips("vehicle", P.vehicle)}</div>`;
+    html += `<div class="est-group"><p>Package</p>${chips("pkg", P.packages.map(([n]) => n))}</div>`;
+    html += `<div class="est-group"><p>Optional add-ons</p>${chips("opt", P.optional.map(([n, lo, hi]) => `${n} (+${range(lo, hi)})`), "checkbox")}</div>`;
+    html += `<div class="est-group"><p>Headlight restoration</p>${chips("lamps", P.headlights.map(([n, p]) => p ? `${n} (+${money(p)})` : n))}</div>`;
+    html += `<div class="est-group"><p>Does your vehicle need any of these?</p>${chips("cond", P.conditions.map(([n, lo, hi]) => `${n} (+${range(lo, hi, true)})`), "checkbox")}
+      <p class="est-hint">Upcharges are confirmed with you before that work begins. Biohazard cleanup (such as bodily fluids) is quoted separately after an assessment, starting at $75.</p></div>`;
   } else {
-    html += `<div class="est-group"><p>Vehicle</p>${chipGroup("vehicle", P.vehicle)}</div>`;
-    html += `<div class="est-group"><p>${svc === "detail" ? "Package" : "Service"}</p>${chipGroup("pkg", P.pkg, "radio", svc === "detail" ? 2 : 0)}</div>`;
-    if (P.addons) html += `<div class="est-group"><p>Add-ons</p>${chipGroup("addon", P.addons, "checkbox")}</div>`;
+    html += `<div class="est-group"><p>Vehicle</p>${chipGroup("vehicle", P.vehicle.map(([l]) => [l]))}</div>`;
+    html += `<div class="est-group"><p>Service</p>${chipGroup("pkg", P.pkg)}</div>`;
   }
   estOptions.innerHTML = html;
 }
@@ -189,21 +205,48 @@ function calcEstimate() {
     const range = estOptions.querySelector("input[name='feet']");
     range.nextElementSibling.textContent = `${feet} ft`;
     range.style.setProperty("--fill", `${((feet - range.min) / (range.max - range.min)) * 100}%`);
+  } else if (svc === "detail") {
+    // Detailing uses the owner's actual prices: show exact totals, and ranges only where the price list has ranges.
+    const v = Number(data.get("vehicle") || 0);
+    const pk = Number(data.get("pkg") || 0);
+    const [pName, prices] = P.packages[pk];
+    let lo = prices[v], hi = prices[v], open = false;
+    const rows = [[`${pName} (${P.vehicle[v]})`, money(prices[v])]];
+    const engineBox = estOptions.querySelector("input[name='opt'][value='0']");
+    engineBox.disabled = pk === P.engineIncludedIn;
+    if (engineBox.disabled) engineBox.checked = false;
+    engineBox.nextElementSibling.textContent = engineBox.disabled ? "Engine bay cleaning (included in Sterling)" : `Engine bay cleaning (+${money(P.optional[0][1])}–${money(P.optional[0][2])})`;
+    if (pk === P.engineIncludedIn) rows.push(["Engine bay cleaning", "Included"]);
+    data.getAll("opt").forEach((i) => { const [n, a, b] = P.optional[i]; lo += a; hi += b; rows.push([n, `${money(a)}–${money(b)}`]); });
+    const [lampName, lamp] = P.headlights[Number(data.get("lamps") || 0)];
+    if (lamp) { lo += lamp; hi += lamp; rows.push([`Headlight restoration (${lampName.toLowerCase()})`, money(lamp)]); }
+    data.getAll("cond").forEach((i) => { const [n, a, b] = P.conditions[i]; lo += a; hi += b; open = true; rows.push([n, `${money(a)}–${money(b)}+`]); });
+    estLow.textContent = money(lo);
+    const single = lo === hi && !open;
+    estHigh.textContent = money(hi) + (open ? "+" : "");
+    estHigh.hidden = single; $(".est-dash").hidden = single;
+    $(".est-label").textContent = single ? "Estimated price" : "Estimated range";
+    estLines.innerHTML = rows.map(([l, p]) => `<li><span>${l}</span><span>${p}</span></li>`).join("");
+    const priceEl = $(".est-price");
+    priceEl.classList.remove("bump"); void priceEl.offsetWidth; priceEl.classList.add("bump");
+    lastEstimate = { service: P.label, text: single ? money(lo) : `${money(lo)} to ${money(hi)}${open ? "+" : ""}`, lines: rows };
+    return;
   } else {
     const [vLabel, mult] = P.vehicle[data.get("vehicle") || 0];
     const [pLabel, base] = P.pkg[data.get("pkg") || 0];
     const price = base * mult;
     lines.push([`${pLabel} (${vLabel})`, price]); total += price;
-    data.getAll("addon").forEach((i) => { const [l, p] = P.addons[i]; lines.push([l, p]); total += p; });
   }
   const low = Math.round(total / 5) * 5;
   const high = Math.round((total * 1.2) / 5) * 5;
   estLow.textContent = money(low);
   estHigh.textContent = money(high);
+  estHigh.hidden = false; $(".est-dash").hidden = false;
+  $(".est-label").textContent = "Estimated range";
   estLines.innerHTML = lines.map(([l, p]) => `<li><span>${l}</span><span>${typeof p === "number" ? money(p) : p}</span></li>`).join("");
   const priceEl = $(".est-price");
   priceEl.classList.remove("bump"); void priceEl.offsetWidth; priceEl.classList.add("bump");
-  lastEstimate = { service: P.label, low, high, lines };
+  lastEstimate = { service: P.label, text: `${money(low)} to ${money(high)}`, lines };
 }
 
 function setService(svc) {
@@ -217,7 +260,13 @@ estForm.addEventListener("change", (e) => {
   calcEstimate();
 });
 estForm.addEventListener("input", (e) => { if (e.target.name === "feet") calcEstimate(); });
-$$("[data-preset]").forEach((a) => a.addEventListener("click", () => setService(a.dataset.preset)));
+$$("[data-preset]").forEach((a) => a.addEventListener("click", () => {
+  setService(a.dataset.preset);
+  if (a.dataset.pkg) {
+    const r = estForm.querySelector(`input[name='pkg'][value='${a.dataset.pkg}']`);
+    if (r) { r.checked = true; calcEstimate(); }
+  }
+}));
 setService("lights");
 
 // ---------- Booking form helpers ----------
@@ -226,7 +275,7 @@ const msg = $("#f-msg");
 $("#est-book").addEventListener("click", () => {
   if (!lastEstimate) return;
   serviceSelect.value = lastEstimate.service;
-  msg.value = `Instant estimate: ${money(lastEstimate.low)} to ${money(lastEstimate.high)}\n` +
+  msg.value = `Instant estimate: ${lastEstimate.text}\n` +
     lastEstimate.lines.map(([l, p]) => `- ${l}: ${typeof p === "number" ? money(p) : p}`).join("\n") + "\n\n";
   $("#book").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
   setTimeout(() => $("#f-name").focus({ preventScroll: true }), 700);

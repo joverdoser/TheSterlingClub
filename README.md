@@ -20,7 +20,7 @@ Contact details are set: (786) 488-9561, reserve@thesterlingclub.com, Houston ar
 
 Still to do (details in `COMPLIANCE.md`):
 
-- **Prices:** the starred "from $..." estimates in each service tab, **and** `PRICING` at the top of `script.js`
+- **Prices:** detailing now uses your real package prices. The starred "from $..." estimates for lights, gutters and mechanic work still need real numbers. Update both the service tabs and `PRICING` at the top of `script.js`
 - **Membership:** Sterling and Crown prices and inclusions (labeled as estimates)
 - **About section:** your story, and replace `images/team.svg` with a real photo
 - **Photos:** replace the illustrative photos with photos of your own jobs
@@ -47,4 +47,4 @@ When a visitor submits the form (after checking the consent box), it opens their
 
 ## If the live site looks out of date
 
-Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=legal-1` → `styles.css?v=legal-2`) so every visitor gets the new file right away.
+Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=pricing-1` → `styles.css?v=pricing-2`) so every visitor gets the new file right away.
