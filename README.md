@@ -1,15 +1,15 @@
 # The Sterling Club
 
-Website for **The Sterling Club** — Christmas lighting, gutter cleaning, mobile detailing, and mobile mechanic services (oil changes, brakes, tune-ups).
+Website for **The Sterling Club** — Christmas lighting, gutter and roofline care, private detailing, and vehicle care at home (oil changes, brakes, tune-ups).
 
 ## Files
 
 | File | What it is |
 |------|------------|
-| `index.html` | The homepage: services, estimate tool, membership, service area, FAQ, quote form |
+| `index.html` | The homepage: services, membership, about, service area, FAQ, appointment form |
 | `privacy.html`, `terms.html`, `cookies.html`, `refunds.html`, `accessibility.html` | Policy pages, linked from every page's footer |
-| `styles.css` | Colors, fonts and layout |
-| `script.js` | Interactive parts: estimate calculator, service tabs, ZIP check, quote form |
+| `styles.css` | Colors, fonts and layout (the "hallmark at blue hour" design: color names and the type scale are at the top) |
+| `script.js` | Interactive parts: menu, ZIP check, appointment form (including the Christmas lighting consultation question) |
 | `images/` | Photos (illustrative, from the brand flyers, with car logos blurred) and generated images |
 | `fonts/` | Self-hosted fonts and their open licenses |
 | `COMPLIANCE.md` | **Read this.** What was checked for legal and accessibility risk, and what's left for you to do |
@@ -20,15 +20,19 @@ Contact details are set: (786) 488-9561, reserve@thesterlingclub.com, Houston ar
 
 Still to do (details in `COMPLIANCE.md`):
 
-- **Prices:** detailing now uses your real package prices. The starred "from $..." estimates for lights, gutters and mechanic work still need real numbers. Update both the service tabs and `PRICING` at the top of `script.js`
-- **Membership:** Sterling and Crown prices and inclusions (labeled as estimates)
+- **Prices:** Christmas lighting shows no prices (it's sold by phone or in-person consultation). Detailing uses your real package prices. The starred "Starting at" prices for gutters ($129*) and vehicle care ($79*) are still estimates: update them in `index.html`
+- **Membership:** Sterling and Sterling Reserve prices and inclusions (labeled as estimates)
 - **About section:** your story, and replace `images/team.svg` with a real photo
-- **Photos:** replace the illustrative photos with photos of your own jobs
+- **Photos:** replace the illustrative photos with photos of your own jobs. The hero photo is set in `styles.css` (`.hero-media`); use a sharp dusk photo at least 2400px wide
 - **Service area:** the city list and the ZIP check (`SERVED_PREFIXES` in `script.js`)
 - **Policies:** once the business is registered, add its legal name to the policy pages, and update the "Effective" date whenever you change a policy
 - **Reviews:** only add real reviews from real customers, with their permission
 
 You can edit any file right on GitHub: open the file, click the pencil icon, make changes, then click **Commit changes**.
+
+## Going back to the previous design
+
+The site as it was before the luxury redesign (black and chrome silver, crown logo) is saved on the `backup/pre-luxury-redesign` branch.
 
 ## Preview it
 
@@ -47,4 +51,4 @@ When a visitor submits the form (after checking the consent box), it opens their
 
 ## If the live site looks out of date
 
-Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=pricing-1` → `styles.css?v=pricing-2`) so every visitor gets the new file right away.
+Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=hallmark-1` → `styles.css?v=hallmark-2`) so every visitor gets the new file right away.
