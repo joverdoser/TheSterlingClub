@@ -12,6 +12,7 @@ Website for **The Sterling Club** — Christmas lighting, gutter and roofline ca
 | `script.js` | Interactive parts: menu, ZIP check, appointment form (including the Christmas lighting consultation question) |
 | `images/` | Photos (illustrative, from the brand flyers, with car logos blurred) and generated images |
 | `fonts/` | Self-hosted fonts and their open licenses |
+| `print/` | Business card: `business-card.pdf` is print-ready (3.5 × 2 in card with 1/8 in bleed); `business-card.html` is its editable source |
 | `COMPLIANCE.md` | **Read this.** What was checked for legal and accessibility risk, and what's left for you to do |
 
 ## Things to update
