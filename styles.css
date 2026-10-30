@@ -213,12 +213,15 @@ p { text-wrap: pretty; }
 /* Christmas lighting: the house lights up as you scroll through this section (script.js) */
 .lights { position: relative; height: 290vh; background: var(--black); }
 .lights-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.lights-scene, .lights-scene img, .lights-bulbs, .lights-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
-.lights-scene img { object-fit: cover; object-position: 50% 50%; }
+.lights-scene, .lights-scene img, .lights-scene canvas, .lights-bulbs, .lights-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.lights-scene img, .lights-scene canvas { object-fit: cover; object-position: 50% 50%; }
 .lights-on { opacity: var(--on, 0); }
 .lights-bulbs { opacity: var(--bulbs, 1); }
-.lights-bulbs circle { opacity: 0; transition: opacity .3s ease-out; }
-.lights-bulbs circle.on { opacity: 1; }
+.lights-bulbs circle { opacity: 0; transition: opacity .4s ease-out; }
+.bulbs-glow circle.on { opacity: .45; }
+/* Each bulb gives a brief warm spark as it switches on; the real bulb from the photo stays lit underneath. */
+.bulbs-core circle.on { animation: spark .9s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+@keyframes spark { 0% { opacity: 1; transform: scale(1.6); } 100% { opacity: 0; transform: scale(.6); } }
 .bulbs-glow circle { fill: #FFCF8A; }
 .bulbs-core circle { fill: #FFF7E8; }
 .lights-shade { background: linear-gradient(90deg, rgba(0, 0, 0, .86) 0%, rgba(0, 0, 0, .6) 32%, rgba(0, 0, 0, 0) 60%), linear-gradient(0deg, rgba(0, 0, 0, .55), transparent 28%); }
@@ -471,7 +474,7 @@ p { text-wrap: pretty; }
   .site-header:has(.nav-links.open) { background: var(--onyx); }
 
   .lights { height: 240vh; }
-  .lights-scene img { object-position: 46% 50%; }
+  .lights-scene img, .lights-scene canvas { object-position: 46% 50%; }
   .lights-shade { background: linear-gradient(0deg, rgba(0, 0, 0, .92) 0%, rgba(0, 0, 0, .75) 42%, rgba(0, 0, 0, 0) 72%); }
   .lights-copy { align-items: flex-end; padding-bottom: 112px; }
   .lights-meter { bottom: 92px; }

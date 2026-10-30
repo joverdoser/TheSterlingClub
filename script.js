@@ -31,8 +31,45 @@ const toTop = $(".to-top");
 // ---------- Christmas lighting: the house lights up as you scroll ----------
 const lights = $("#lighting");
 const bulbs = [];
-let lit = 0;
+let lit = 0, drawn = -1, drawLit = () => {};
 if (lights) {
+  // The real lit photo is revealed in a soft circle around each bulb as it switches on,
+  // so visitors see the actual bulbs and their glow, not drawn dots.
+  const litImg = $(".lights-on", lights);
+  const canvas = $(".lights-lit", lights);
+  const ctx = canvas.getContext("2d");
+  const mask = document.createElement("canvas");
+  mask.width = canvas.width; mask.height = canvas.height;
+  const mctx = mask.getContext("2d");
+  const R = 24;
+  drawLit = (n) => {
+    if (!litImg.complete || !litImg.naturalWidth) return;
+    mctx.clearRect(0, 0, mask.width, mask.height);
+    for (let i = 0; i < n; i++) {
+      const x = BULBS[2 * i], y = BULBS[2 * i + 1];
+      const g = mctx.createRadialGradient(x, y, 0, x, y, R);
+      g.addColorStop(0, "rgba(0,0,0,1)");
+      g.addColorStop(0.4, "rgba(0,0,0,.85)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      mctx.fillStyle = g;
+      mctx.fillRect(x - R, y - R, R * 2, R * 2);
+    }
+    ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(litImg, 0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = "destination-in";
+    ctx.drawImage(mask, 0, 0);
+    // Light spill: the whole house warms a little as more bulbs come on.
+    ctx.globalCompositeOperation = "destination-over";
+    ctx.globalAlpha = 0.22 * (n / bulbs.length);
+    ctx.drawImage(litImg, 0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
+    drawn = n;
+  };
+  litImg.addEventListener("load", () => { drawn = -1; onScroll(); });
+
   const NS = "http://www.w3.org/2000/svg";
   const glow = $(".bulbs-glow", lights), core = $(".bulbs-core", lights);
   const dot = (x, y, r) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", r); return c; };
@@ -49,6 +86,7 @@ function updateLights() {
   const n = Math.round(clamp((p - 0.06) / 0.64) * bulbs.length);
   for (let i = Math.min(n, lit); i < Math.max(n, lit); i++) bulbs[i].forEach((c) => c.classList.toggle("on", i < n));
   lit = n;
+  if (n !== drawn) drawLit(n);
   const on = clamp((p - 0.72) / 0.18);
   lights.style.setProperty("--on", on.toFixed(3));
   lights.style.setProperty("--bulbs", (1 - on * 0.85).toFixed(3));
