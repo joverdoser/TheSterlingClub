@@ -8,8 +8,10 @@ Website for **The Sterling Club** — Christmas lighting, gutter and roofline ca
 |------|------------|
 | `index.html` | The homepage: services, membership, about, service area, FAQ, appointment form |
 | `privacy.html`, `terms.html`, `cookies.html`, `refunds.html`, `accessibility.html` | Policy pages, linked from every page's footer |
-| `styles.css` | Colors, fonts and layout (the "Onyx" design: black, white and silver. Color names and the type scale are at the top) |
-| `script.js` | Interactive parts: menu, ZIP check, appointment form (including the Christmas lighting consultation question) |
+| `styles.css` | Colors, fonts and layout (the "Onyx" design: black, white and silver, plus the animations. Color names and the type scale are at the top) |
+| `script.js` | Interactive parts: menu, the Christmas lighting house that lights up as you scroll, photo drift, scroll reveals, membership card tilt, ZIP check, appointment form |
+| `js/medallion.js`, `js/mono-data.js` | The 3D silver SC monogram in the first screen (built with three.js). The flat logo shows if 3D isn't available |
+| `vendor/` | three.js, the 3D library, stored on this site (MIT license in `vendor/LICENSE-three.txt`) |
 | `images/` | Photos (illustrative, from the brand flyers, with car logos blurred) and generated images |
 | `fonts/` | Self-hosted fonts and their open licenses |
 | `print/` | Business card: `business-card.pdf` is print-ready (3.5 × 2 in card with 1/8 in bleed); `business-card.html` is its editable source |
@@ -24,7 +26,7 @@ Still to do (details in `COMPLIANCE.md`):
 - **Prices:** Christmas lighting shows no prices (it's sold by phone or in-person consultation). Detailing uses your real package prices. The starred "Starting at" prices for gutters ($129*) and vehicle care ($79*) are still estimates: update them in `index.html`
 - **Membership:** Sterling and Sterling Reserve prices and inclusions (labeled as estimates)
 - **About section:** your story, and replace `images/team.svg` with a real photo
-- **Photos:** replace the illustrative photos with photos of your own jobs. The hero photo is set in `styles.css` (`.hero-media`); use a sharp night or dusk photo at least 2400px wide
+- **Photos:** replace the illustrative photos with photos of your own jobs. The Christmas lighting animation uses `images/hero-lights.jpg` and a lights-off copy, `images/house-off.jpg`, and the bulb positions in `BULBS` at the top of `script.js` match that exact photo. If you change the house photo, ask for the bulbs to be re-mapped
 - **Service area:** the city list and the ZIP check (`SERVED_PREFIXES` in `script.js`)
 - **Policies:** once the business is registered, add its legal name to the policy pages, and update the "Effective" date whenever you change a policy
 - **Reviews:** only add real reviews from real customers, with their permission
@@ -52,4 +54,4 @@ When a visitor submits the form (after checking the consent box), it opens their
 
 ## If the live site looks out of date
 
-Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=onyx-1` → `styles.css?v=onyx-2`) so every visitor gets the new file right away.
+Browsers save a copy of `styles.css` and `script.js`. After you change either one, bump the version at the end of its link in `index.html` (e.g. `styles.css?v=club-1` → `styles.css?v=club-2`) so every visitor gets the new file right away.
