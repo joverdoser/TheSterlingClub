@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+  :root { --onyx: #0F0F0F; --black: #000; --white: #FFF; --text: #1A1A1A; --soft: #5F5F5F; --rule: #E3E3E3; --field: #FAFAFA; --lamp: #B7791F; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #F6F6F6; color: var(--text); font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+  header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px max(16px, env(safe-area-inset-left)); background: var(--onyx); color: var(--white); }
+  header h1 { margin: 0; font: 400 15px/1 Georgia, serif; letter-spacing: .24em; text-transform: uppercase; }
+  header button { background: none; border: 1px solid rgba(255,255,255,.35); color: var(--white); border-radius: 4px; padding: 8px 12px; font: inherit; cursor: pointer; }
+  main { max-width: 1100px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-left)) 48px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+  .filters button { border: 1px solid var(--rule); background: var(--white); border-radius: 999px; padding: 7px 14px; font: inherit; cursor: pointer; color: var(--text); }
+  .filters button[aria-pressed="true"] { background: var(--onyx); color: var(--white); border-color: var(--onyx); }
+  .filters b { font-weight: 600; margin-left: 4px; }
+  .layout { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 16px; align-items: start; }
+  .list { display: grid; gap: 8px; }
+  .lead { display: grid; gap: 2px; width: 100%; text-align: left; padding: 12px 14px; background: var(--white); border: 1px solid var(--rule); border-radius: 8px; cursor: pointer; font: inherit; color: inherit; }
+  .lead[aria-current="true"] { border-color: var(--onyx); box-shadow: 0 0 0 1px var(--onyx); }
+  .lead .top { display: flex; justify-content: space-between; gap: 8px; }
+  .lead .name { font-weight: 600; }
+  .lead .meta { color: var(--soft); font-size: 13px; }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #EFEFEF; white-space: nowrap; }
+  .pill.New { background: #111; color: #fff; }
+  .pill.Won { background: #E3F1E6; color: #1E5631; }
+  .pill.Lost { background: #F3E3E3; color: #7A2626; }
+  .lights-tag { color: var(--lamp); font-weight: 600; }
+  .detail { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 20px; min-height: 200px; }
+  .detail h2 { margin: 0 0 4px; font: 400 26px/1.2 Georgia, serif; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+  .btn { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 4px; border: 1px solid var(--onyx); background: var(--onyx); color: var(--white); font: inherit; text-decoration: none; cursor: pointer; }
+  .btn.ghost { background: var(--white); color: var(--onyx); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  dl { display: grid; grid-template-columns: 9rem 1fr; gap: 6px 12px; margin: 0 0 16px; }
+  dt { color: var(--soft); }
+  dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  label.f { display: grid; gap: 6px; margin-bottom: 12px; font-weight: 600; font-size: 13px; }
+  select, textarea { font: inherit; padding: 9px 10px; border: 1px solid #BDBDBD; border-radius: 4px; background: var(--field); color: var(--text); }
+  textarea { min-height: 90px; resize: vertical; }
+  h3 { margin: 20px 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .12em; color: var(--soft); }
+  .photo img { width: 100%; max-height: 360px; object-fit: cover; border-radius: 6px; background: #EEE; }
+  .mockups { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .mockups figure { margin: 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+  .mockups img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: #EEE; }
+  .mockups figcaption { display: flex; align-items: center; gap: 8px; padding: 8px 10px; font-size: 14px; }
+  .note { color: var(--soft); font-size: 13px; }
+  .toast { position: fixed; left: 50%; bottom: 20px; translate: -50% 0; background: var(--onyx); color: var(--white); padding: 10px 16px; border-radius: 6px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+  .empty { padding: 40px 20px; text-align: center; color: var(--soft); }
+  :focus-visible { outline: 2px solid var(--onyx); outline-offset: 2px; }
+  @media (max-width: 760px) {
+    .layout { grid-template-columns: 1fr; }
+    .layout.open .list { display: none; }
+    .layout:not(.open) .detail { display: none; }
+    dl { grid-template-columns: 1fr; }
+    dt { margin-top: 6px; }
+  }
+  @media (min-width: 761px) { .back { display: none; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>The Sterling Club CRM</h1>
+  <button type="button" id="refresh">Refresh</button>
+</header>
+<main>
+  <div class="filters" id="filters" role="group" aria-label="Filter by status"></div>
+  <div class="layout" id="layout">
+    <div class="list" id="list"><p class="empty">Loading leads…</p></div>
+    <section class="detail" id="detail" aria-live="polite"><p class="empty">Select a lead to see the details.</p></section>
+  </div>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const STATUSES = ['New', 'Contacted', 'Consultation booked', 'Quoted', 'Won', 'Lost'];
+let leads = [], filter = 'Open', current = null;
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const run = (fn, ...args) => new Promise((ok, fail) => google.script.run.withSuccessHandler(ok).withFailureHandler(fail)[fn](...args));
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2600); }
+
+// Drive images load through the server, so they work without sharing settings or third-party cookies.
+const imgCache = {};
+async function fillImages(root) {
+  for (const img of root.querySelectorAll('img[data-file]')) {
+    const id = img.dataset.file;
+    try { img.src = imgCache[id] || (imgCache[id] = await run('getImageData', id, Number(img.dataset.size || 1200))); }
+    catch (e) { img.alt = 'Image could not load'; }
+  }
+}
+
+async function load() {
+  try { leads = await run('listLeads'); }
+  catch (e) { $('#list').innerHTML = '<p class="empty">Could not load leads: ' + esc(e.message) + '</p>'; return; }
+  renderFilters(); renderList();
+  if (current) select(current, true);
+}
+
+function renderFilters() {
+  const counts = { Open: leads.filter((l) => !['Won', 'Lost'].includes(l.status)).length, All: leads.length };
+  STATUSES.forEach((s) => counts[s] = leads.filter((l) => l.status === s).length);
+  $('#filters').innerHTML = ['Open', ...STATUSES, 'All'].map((s) =>
+    `<button type="button" data-f="${s}" aria-pressed="${s === filter}">${s}<b>${counts[s]}</b></button>`).join('');
+}
+
+function visible() {
+  if (filter === 'All') return leads;
+  if (filter === 'Open') return leads.filter((l) => !['Won', 'Lost'].includes(l.status));
+  return leads.filter((l) => l.status === filter);
+}
+
+function renderList() {
+  const items = visible();
+  $('#list').innerHTML = items.length ? items.map((l) => `
+    <button type="button" class="lead" data-id="${esc(l.id)}" aria-current="${l.id === current}">
+      <span class="top"><span class="name">${esc(l.name)}</span><span class="pill ${esc(l.status)}">${esc(l.status)}</span></span>
+      <span class="meta">${l.service === 'Christmas lighting' ? '<span class="lights-tag">Christmas lighting</span>' : esc(l.service)} · ${esc(l.received)}</span>
+      <span class="meta">${esc(l.address || l.phone)}</span>
+    </button>`).join('') : '<p class="empty">No leads here yet. New website requests appear here automatically.</p>';
+}
+
+function select(id, keepScroll) {
+  current = id;
+  const l = leads.find((x) => x.id === id);
+  if (!l) return;
+  renderList();
+  $('#layout').classList.add('open');
+  const rows = [['Phone', l.phone], ['Email', l.email], ['Consultation', l.meet], ['Preferred date', l.date], ['Time window', l.time],
+    ['Address / ZIP', l.address], ['Best way to reach', l.pref], ['Details', l.details], ['Received', l.received], ['Lead ID', l.id]].filter((r) => r[1]);
+  const lights = l.service === 'Christmas lighting';
+  $('#detail').innerHTML = `
+    <button type="button" class="btn ghost back" id="back">Back to leads</button>
+    <h2>${esc(l.name)}</h2>
+    <div class="meta">${esc(l.service)}</div>
+    <div class="actions">
+      <a class="btn" href="tel:${esc(l.phone)}">Call</a>
+      <a class="btn ghost" href="sms:${esc(l.phone)}">Text</a>
+      ${l.email ? `<a class="btn ghost" href="mailto:${esc(l.email)}">Email</a>` : ''}
+      ${l.address ? `<a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(l.address)}" target="_blank" rel="noopener">Map</a>` : ''}
+    </div>
+    <dl>${rows.map((r) => `<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join('')}</dl>
+    <label class="f">Status
+      <select id="status">${STATUSES.map((s) => `<option${s === l.status ? ' selected' : ''}>${s}</option>`).join('')}</select>
+    </label>
+    <label class="f">Notes
+      <textarea id="notes" placeholder="Call notes, measurements, quote amount">${esc(l.notes)}</textarea>
+    </label>
+    <button type="button" class="btn" id="save">Save</button>
+
+    <h3>House photo</h3>
+    <div class="photo">${l.photo ? `<img data-file="${l.photo}" alt="Front of the house">` : '<p class="note">No photo yet. Add one from the customer or from your visit.</p>'}</div>
+    <div class="actions">
+      <label class="btn ghost" for="photo-input">${l.photo ? 'Replace photo' : 'Add photo'}</label>
+      <input type="file" id="photo-input" accept="image/*" hidden>
+      ${lights || l.photo ? `<button type="button" class="btn ghost" id="mockup" ${l.photo ? '' : 'disabled'}>Make lighting mockups</button>` : ''}
+    </div>
+
+    ${l.mockups.length || l.mockupState ? `<h3>Lighting mockups</h3>` : ''}
+    ${l.mockupState && l.mockupState !== 'Ready' ? `<p class="note">${l.mockupState === 'Queued' || l.mockupState === 'Working' ? 'Mockups are being made. They usually appear within 5 to 10 minutes; press Refresh.' : 'Mockups could not be made. Check the OpenAI key and try again.'}</p>` : ''}
+    ${l.mockups.length ? `
+      <div class="mockups">${l.mockups.map((m) => `
+        <figure><img data-file="${m.id}" data-size="900" alt="${esc(m.label)} mockup">
+        <figcaption><input type="checkbox" class="pick" value="${m.id}" id="m-${m.id}"><label for="m-${m.id}">${esc(m.label)}</label></figcaption></figure>`).join('')}
+      </div>
+      <p class="note">Mockups are AI previews. Check each one before sending: lights should follow this house's real rooflines.</p>
+      <label class="f">Message to the customer (optional)
+        <textarea id="mock-note" placeholder="Here are a few ideas from our visit."></textarea>
+      </label>
+      <button type="button" class="btn" id="send-mockups" ${l.email ? '' : 'disabled'}>Email selected to ${l.email ? esc(l.name.split(' ')[0]) : 'customer (no email on file)'}</button>` : ''}
+  `;
+  fillImages($('#detail'));
+  if (!keepScroll) $('#detail').scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+
+// Downscale photos in the browser before upload, to keep them fast and under size limits.
+function resize(file, max = 2000) {
+  return new Promise((ok, fail) => {
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      ok(c.toDataURL('image/jpeg', 0.86));
+    };
+    img.onerror = fail;
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+document.addEventListener('click', async (e) => {
+  const f = e.target.closest('[data-f]');
+  if (f) { filter = f.dataset.f; renderFilters(); renderList(); return; }
+  const item = e.target.closest('.lead');
+  if (item) { select(item.dataset.id); return; }
+  if (e.target.id === 'back') { $('#layout').classList.remove('open'); return; }
+  if (e.target.id === 'refresh') { toast('Refreshing'); load(); return; }
+  if (e.target.id === 'save') {
+    e.target.disabled = true;
+    try { await run('updateLead', current, { status: $('#status').value, notes: $('#notes').value }); toast('Saved'); await load(); }
+    catch (err) { toast('Could not save: ' + err.message); }
+    e.target.disabled = false;
+  }
+  if (e.target.id === 'mockup') {
+    e.target.disabled = true; e.target.textContent = 'Making mockups (about a minute)…';
+    try { await run('makeMockupsNow', current); toast('Mockups ready'); await load(); }
+    catch (err) { toast(err.message); e.target.disabled = false; e.target.textContent = 'Make lighting mockups'; }
+  }
+  if (e.target.id === 'send-mockups') {
+    const ids = [...document.querySelectorAll('.pick:checked')].map((c) => c.value);
+    if (!ids.length) { toast('Tick the mockups to send first'); return; }
+    e.target.disabled = true;
+    try { await run('sendMockupsToCustomer', current, ids, $('#mock-note').value); toast('Sent ' + ids.length + ' mockup' + (ids.length > 1 ? 's' : '')); await load(); }
+    catch (err) { toast('Could not send: ' + err.message); e.target.disabled = false; }
+  }
+});
+
+document.addEventListener('change', async (e) => {
+  if (e.target.id !== 'photo-input' || !e.target.files[0]) return;
+  toast('Uploading photo');
+  try { await run('uploadPhoto', current, await resize(e.target.files[0])); toast('Photo saved'); await load(); }
+  catch (err) { toast('Could not upload: ' + err.message); }
+});
+
+load();
+</script>
+</body>
+</html>
