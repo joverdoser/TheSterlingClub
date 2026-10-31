@@ -1,5 +1,5 @@
 // ===== The Sterling Club — 3D silver monogram in the hero =====
-// The SC monogram and crown are extruded into polished silver and lit like a
+// The crowned SC monogram is extruded into polished silver and lit like a
 // chrome product shot: a dark room with a few bright strip lights. The flat SVG logo stays visible until this is ready, and
 // is what visitors see if WebGL is unavailable.
 
@@ -10,23 +10,6 @@ const canvas = document.getElementById("medallion");
 const hero = document.querySelector(".hero");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// SVG path (absolute M, L, H, V, Q, Z) -> three.js shapes. y is flipped so the logo stands upright.
-function pathToShapes(d) {
-  const sp = new THREE.ShapePath();
-  const re = /([MLHVQZ])([^MLHVQZ]*)/g;
-  let m, x = 0, y = 0;
-  while ((m = re.exec(d))) {
-    const n = m[2].trim() ? m[2].trim().split(/[\s,]+/).map(Number) : [];
-    switch (m[1]) {
-      case "M": for (let i = 0; i < n.length; i += 2) { x = n[i]; y = n[i + 1]; i === 0 ? sp.moveTo(x, -y) : sp.lineTo(x, -y); } break;
-      case "L": for (let i = 0; i < n.length; i += 2) { x = n[i]; y = n[i + 1]; sp.lineTo(x, -y); } break;
-      case "H": for (const v of n) { x = v; sp.lineTo(x, -y); } break;
-      case "V": for (const v of n) { y = v; sp.lineTo(x, -y); } break;
-      case "Q": for (let i = 0; i < n.length; i += 4) { sp.quadraticCurveTo(n[i], -n[i + 1], n[i + 2], -n[i + 3]); x = n[i + 2]; y = n[i + 3]; } break;
-    }
-  }
-  return sp.toShapes(true);
-}
 // Dark studio with bright softboxes. Silver only looks like silver when it has dark
 // surroundings to reflect between the highlights.
 function studio() {
@@ -65,32 +48,21 @@ const polygon = (pts) => new THREE.Shape(pts.map(([px, py]) => new THREE.Vector2
 
 function buildMonogram() {
   const silver = new THREE.MeshStandardMaterial({ color: 0xf0f0f3, metalness: 1, roughness: 0.13 });
-  // A chamfered bevel (one segment) gives the cut, faceted edges of engraved silver.
-  const extrude = (shapes, depth) => new THREE.ExtrudeGeometry(shapes, {
-    depth, curveSegments: 14, bevelEnabled: true, bevelThickness: 16, bevelSize: 7, bevelSegments: 1,
+  // The monogram is one interwoven piece, so it is extruded as a single silver relief.
+  // A fine chamfer (kept inside the outline) catches light without closing the thin gaps and highlight lines.
+  const shapes = MONO.shapes.map((s) => {
+    const shape = polygon(s.outer);
+    s.holes.forEach((h) => shape.holes.push(new THREE.Path(h.map(([px, py]) => new THREE.Vector2(px, -py)))));
+    return shape;
   });
-  const crown = polygon(MONO.crownBody);
-  crown.holes.push(new THREE.Path(MONO.crownHole.map(([px, py]) => new THREE.Vector2(px, -py))));
-
-  const group = new THREE.Group();
-  const parts = [
-    [pathToShapes(MONO.C), 60, -46],   // C sits behind the S, so the S weaves over it
-    [pathToShapes(MONO.S), 70, 0],
-    [[crown], 56, -10],
-    [[polygon(MONO.crownBand)], 44, -4],
-  ];
-  for (const [shapes, depth, z] of parts) {
-    const mesh = new THREE.Mesh(extrude(shapes, depth), silver);
-    mesh.position.z = z;
-    group.add(mesh);
-  }
-  // Center the logo on its own middle so it turns in place.
-  const box = new THREE.Box3().setFromObject(group);
-  const center = box.getCenter(new THREE.Vector3());
-  group.children.forEach((c) => c.position.sub(center));
+  const geometry = new THREE.ExtrudeGeometry(shapes, {
+    depth: 34, curveSegments: 1, bevelEnabled: true, bevelThickness: 3.5, bevelSize: 1.3, bevelOffset: -1.3, bevelSegments: 1,
+  });
+  geometry.center();
+  const mesh = new THREE.Mesh(geometry, silver);
   const pivot = new THREE.Group();
-  pivot.add(group);
-  pivot.scale.setScalar(1 / (box.max.y - box.min.y));
+  pivot.add(mesh);
+  pivot.scale.setScalar(1 / MONO.H);
   return pivot;
 }
 
