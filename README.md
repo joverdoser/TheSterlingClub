@@ -1,6 +1,6 @@
 # The Sterling Club
 
-Website for **The Sterling Club** — Christmas lighting, gutter and roofline care, private detailing, and vehicle care at home (oil changes, brakes, tune-ups).
+Website for **The Sterling Club** — Christmas lighting, gutter cleaning, private detailing, and mobile mechanic service (oil changes, brakes, tune-ups).
 
 ## Files
 
