@@ -3,6 +3,10 @@
 // Where booking requests are sent. Change this to your real email address.
 const BUSINESS_EMAIL = "reserve@thesterlingclub.com";
 
+// Your CRM's web app address (see crm/SETUP.md), ending in /exec. While this is empty,
+// the form falls back to opening the visitor's email app.
+const CRM_ENDPOINT = "";
+
 // The service that is booked by consultation (no prices shown on the site).
 const CONSULTATION_SERVICE = "Christmas lighting";
 
@@ -192,11 +196,14 @@ const serviceSelect = $("#f-service");
 const msg = $("#f-msg");
 const meet = $("#meet");
 const dateLabel = $("#f-date-label");
+const photoField = $("#photo-field");
 
 // Christmas lighting starts with a consultation: ask how to meet.
 function updateConsultation() {
   const isConsult = serviceSelect.value === CONSULTATION_SERVICE;
   meet.hidden = !isConsult;
+  // House photos are only collected when the form sends straight to the CRM.
+  photoField.hidden = !isConsult || !CRM_ENDPOINT;
   dateLabel.firstChild.textContent = isConsult ? "Preferred consultation date " : "Preferred date ";
 }
 serviceSelect.addEventListener("change", updateConsultation);
@@ -233,10 +240,36 @@ $("#zip-form").addEventListener("submit", (e) => {
 });
 $("#zip").addEventListener("input", (e) => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5); });
 
-// ---------- Booking form: checks required fields, then opens the visitor's email app ----------
+// ---------- Booking form: checks required fields, then sends the request ----------
+// With CRM_ENDPOINT set, the request goes straight to the CRM (Google Sheet, alerts, confirmation).
+// Without it, the visitor's email app opens with the request filled in.
 const form = $("#quote-form");
 const note = $("#form-note");
-form.addEventListener("submit", (event) => {
+const submitBtn = $("button[type='submit']", form);
+if (CRM_ENDPOINT) {
+  submitBtn.textContent = "Send request";
+  $(".form-how", form).textContent = "We'll reply with a written quote and available times. For Christmas lighting, we'll call to set up your consultation.";
+}
+
+// Shrink photos in the browser before sending: faster on phones and well under upload limits.
+function photoToDataUrl(file, max = 1800) {
+  return new Promise((resolve) => {
+    if (!file || !file.type.startsWith("image/")) return resolve("");
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src);
+      resolve(c.toDataURL("image/jpeg", 0.85));
+    };
+    img.onerror = () => resolve("");
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const required = $$("[required]", form);
   const missing = required.filter((el) => (el.type === "checkbox" ? !el.checked : !el.value.trim()));
@@ -254,6 +287,35 @@ form.addEventListener("submit", (event) => {
   }
   const d = new FormData(form);
   const isConsult = d.get("service") === CONSULTATION_SERVICE;
+
+  if (CRM_ENDPOINT) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    note.classList.remove("error");
+    note.textContent = "";
+    const payload = {
+      name: d.get("name"), phone: d.get("phone"), email: d.get("email"), service: d.get("service"),
+      meet: isConsult ? d.get("meet") : "", date: d.get("date"), time: d.get("time"), address: d.get("address"),
+      pref: d.get("pref"), message: d.get("message"), consent: true, website: d.get("website"),
+      photo: isConsult ? await photoToDataUrl($("#f-photo").files[0]) : "",
+    };
+    try {
+      // Sent as plain text so the browser doesn't need a cross-site preflight; Google Apps Script reads the body.
+      await fetch(CRM_ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+      note.textContent = isConsult
+        ? "Request sent. We'll call you to set up your lighting consultation."
+        : "Request sent. We'll reply with a written quote and available times.";
+      form.reset();
+      updateConsultation();
+    } catch {
+      note.textContent = "Your request didn't send. Check your connection and try again, or call (786) 488-9561.";
+      note.classList.add("error");
+    }
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Send request";
+    return;
+  }
+
   const subject = isConsult ? "Consultation request: Christmas lighting" : `Appointment request: ${d.get("service")}`;
   const body = [
     `Name: ${d.get("name")}`,
@@ -272,7 +334,7 @@ form.addEventListener("submit", (event) => {
   ].join("\n");
   window.location.href = `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   note.classList.remove("error");
-  note.textContent = "Your email app should now be open with your request filled in. Press send there to send it to us. If nothing opened, email reserve@thesterlingclub.com or call (786) 488-9561.";
+  note.textContent = `Your email app should now be open with your request filled in. Press send there to send it to us. If nothing opened, email ${BUSINESS_EMAIL} or call (786) 488-9561.`;
   form.reset();
   updateConsultation();
 });

@@ -19,6 +19,7 @@
 | **Cookie Policy** | Added (`cookies.html`). |
 | **Refund policy** | Added (`refunds.html`), as you chose: deposits are refundable 48+ hours before the appointment and non-refundable within 48 hours; workmanship issues reported within 7 days are re-serviced at no charge. |
 | **Form consent** | A required checkbox to be contacted by call, text or email, with links to the Privacy Policy and Terms, "Message and data rates may apply", "Reply STOP", and "not consent to marketing". The form explains that it opens the visitor's email app and that nothing is sent until they press send. |
+| **Booking form and CRM** | Added October 31, 2026. With the CRM connected, requests go to the owner's Google account (Sheets, Drive, Gmail) through Google Apps Script; the owner gets email and text alerts and the customer an email confirmation. Christmas lighting requests can include an optional photo of the home, which may be sent to OpenAI's image API to make lighting previews; previews go to the customer only after the owner reviews and chooses to send them. The Privacy Policy names Google and OpenAI, and says photos of non-customers are deleted within 12 months. A hidden spam-trap field drops bot submissions, and automatic mockups are capped per day to limit cost. |
 | **Data minimization** | Only name, phone, service and consent are required; everything else is optional. Nothing is stored by the website. |
 | **Fake reviews** | **Removed.** The four sample reviews and star ratings are gone, along with the dead "Leave a Google review" link. The FTC's rule on consumer reviews (16 CFR Part 465, in effect since Oct. 2024) bans fake or AI-generated reviews, with civil penalties per violation. |
 | **Unsupported claims** | Removed "Satisfaction guaranteed", "100% satisfaction guarantee", "Make-it-right guarantee", "Most popular", "same day" replies, on-time and clean-up promises, before/after photo promises, invented hours, and the computer-made before/after slider. |
@@ -37,6 +38,13 @@
 2. **Replace the remaining estimated prices (gutters and vehicle care) and membership details with real ones,** or remove them. They're labeled as estimates, but advertising prices you won't honor can still be a deceptive-practices problem under the Texas DTPA. Update them in `index.html`.
 3. **Confirm where the photos came from.** If the flyer images were made with an AI image tool, check that tool's terms allow commercial use. AI-generated images generally can't be copyrighted, so others may reuse them. Replacing them with photos of your own jobs is best for trust and legal clarity.
 4. **Register the business.** In Texas, doing business under a name other than your own legal name generally requires an assumed name (DBA) certificate filed with the county clerk (Harris County if you're there), or you can form an LLC through the Texas Secretary of State. Then add the legal name to the policies.
+
+**Before connecting the CRM and going live:**
+
+- Set up the CRM (`crm/SETUP.md`) and paste its address into `CRM_ENDPOINT` in `script.js`. The Privacy Policy already describes this setup, so it should be live when the redesign is.
+- Change `reserve@thesterlingclub.com` on the site and in every policy to an address you receive. You own thesterlingclub.net, not .com, so mail sent to the .com address won't reach you.
+- In OpenAI, set a monthly budget limit before adding the API key.
+- Once a year, delete house photos of people who didn't become customers (the policy promises within 12 months).
 
 **Operating risks to look at (these aren't website issues, but they're where small service businesses get sued):**
 

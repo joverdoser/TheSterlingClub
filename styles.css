@@ -392,6 +392,9 @@ p { text-wrap: pretty; }
 .choice input { accent-color: var(--white); width: 18px; height: 18px; }
 .meet[hidden] { display: none; }
 .form-help, .form-how { font-size: var(--t-xs); color: var(--soft); }
+.field input[type="file"] { padding: 10px; }
+/* Spam trap: hidden from people, filled in by bots */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .req { color: var(--fg); }
 .consent { display: flex; gap: 12px; align-items: flex-start; font-size: .9375rem; line-height: 1.55; }
 .consent input { flex: none; width: 20px; height: 20px; margin-top: 3px; accent-color: var(--white); cursor: pointer; }

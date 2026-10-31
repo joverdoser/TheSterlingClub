@@ -449,6 +449,11 @@
             <label><input type="radio" name="meet" value="Phone call" checked /> Phone call</label>
             <label><input type="radio" name="meet" value="At my home" /> At my home</label>
           </fieldset>
+          <div class="field field-full" id="photo-field" hidden>
+            <label for="f-photo">Photo of the front of your home <span class="opt">(optional)</span></label>
+            <input id="f-photo" type="file" name="photo" accept="image/*" aria-describedby="photo-help" />
+            <p class="form-help" id="photo-help">A straight-on photo of the front helps us sketch lighting ideas before your consultation.</p>
+          </div>
           <div class="field"><label for="f-date" id="f-date-label">Preferred date <span class="opt">(optional)</span></label><input id="f-date" type="date" name="date" /></div>
           <div class="field">
             <label for="f-time">Time window</label>
@@ -466,6 +471,7 @@
             <input id="f-consent" type="checkbox" name="consent" required aria-describedby="consent-text" />
             <label for="f-consent" id="consent-text">I agree that The Sterling Club may contact me by call, text, or email about this request, and I have read the <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms</a>. Message and data rates may apply. Reply STOP to stop texts. This is not consent to marketing messages. <span class="req" aria-hidden="true">*</span></label>
           </div>
+          <div class="hp" aria-hidden="true"><label for="f-website">Leave this empty</label><input id="f-website" type="text" name="website" tabindex="-1" autocomplete="off" /></div>
           <p class="form-how field-full">Pressing the button opens your email app with your request filled in. Nothing is sent until you press send in your email app.</p>
           <button type="submit" class="btn field-full">Open email to send request</button>
           <p class="form-note field-full" id="form-note" role="status" aria-live="polite"></p>

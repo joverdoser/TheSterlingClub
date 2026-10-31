@@ -14,6 +14,7 @@ Website for **The Sterling Club** — Christmas lighting, gutter and roofline ca
 | `vendor/` | three.js, the 3D library, stored on this site (MIT license in `vendor/LICENSE-three.txt`) |
 | `images/` | Photos (illustrative, from the brand flyers, with car logos blurred) and generated images |
 | `fonts/` | Self-hosted fonts and their open licenses |
+| `crm/` | Your own CRM in Google Apps Script: saves website requests to a Google Sheet, emails and texts you, confirms to the customer, makes AI Christmas lighting mockups, and gives you a private dashboard. **Setup: `crm/SETUP.md`** |
 | `print/` | Business card: `business-card.pdf` is print-ready (3.5 × 2 in card with 1/8 in bleed); `business-card.html` is its editable source |
 | `COMPLIANCE.md` | **Read this.** What was checked for legal and accessibility risk, and what's left for you to do |
 
@@ -48,9 +49,11 @@ Download the files and double-click `index.html` to open it in your browser.
 3. Pick your branch (e.g. `main`) and the `/ (root)` folder, then click **Save**.
 4. After a minute or two, your site will be live at `https://<your-username>.github.io/TheSterlingClub/`.
 
-## How the quote form works
+## How the request form works
 
-When a visitor submits the form (after checking the consent box), it opens their email app with a message to you already filled in. The website itself stores nothing. If you later switch to a form service such as Formspree, that service will receive visitors' details, so update the Privacy Policy first.
+Until the CRM is connected (`CRM_ENDPOINT` at the top of `script.js` is empty), pressing the button opens the visitor's email app with the request filled in, and nothing is sent until they press send.
+
+Once you've set up the CRM (`crm/SETUP.md`) and put its address in `CRM_ENDPOINT`, requests go straight to your Google Sheet, you get an email and text, and Christmas lighting requests can include a photo of the house for AI lighting mockups. Connect the CRM before the redesign goes live: the Privacy Policy already describes this setup.
 
 ## If the live site looks out of date
 
