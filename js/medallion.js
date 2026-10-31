@@ -152,13 +152,15 @@ function start() {
     // only moves when the visitor moves the pointer or scrolls.
     const settle = 1 - ease(Math.min(Math.max((t - 3.5) / 2, 0), 1));
     const lt = Math.min(t, 5.5);
-    const scroll = Math.min(window.scrollY / window.innerHeight, 1.2);
+    // Scrolling past the first screen spins the logo one full turn (eased), so it faces forward again as it leaves.
+    const sp = Math.min(Math.max(window.scrollY / (window.innerHeight * 0.6), 0), 1);
+    const spin = sp * sp * (3 - 2 * sp) * Math.PI * 2;
     pointer.x += (pointer.tx - pointer.x) * 0.06;
     pointer.y += (pointer.ty - pointer.y) * 0.06;
 
-    logo.rotation.y = (1 - intro) * -1.4 + Math.sin(t * 0.45) * 0.3 * intro * settle + pointer.x * 0.35 + scroll * 1.4;
-    logo.rotation.x = -pointer.y * 0.16 + scroll * 0.2;
-    logo.position.y = Math.sin(t * 0.9) * 0.012 * settle + scroll * 0.25;
+    logo.rotation.y = (1 - intro) * -1.4 + Math.sin(t * 0.45) * 0.3 * intro * settle + pointer.x * 0.35 + spin;
+    logo.rotation.x = -pointer.y * 0.16 + Math.sin(sp * Math.PI) * 0.28;
+    logo.position.y = Math.sin(t * 0.9) * 0.012 * settle;
     key.position.set(Math.sin(lt * 0.6) * 3, 1.6 + Math.cos(lt * 0.4) * 0.6, 2.4);
     // Skip drawing when nothing has visibly changed.
     const state = [logo.rotation.y, logo.rotation.x, logo.position.y, key.position.x].map((v) => v.toFixed(4)).join();
