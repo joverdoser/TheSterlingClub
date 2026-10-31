@@ -215,6 +215,8 @@ p { text-wrap: pretty; }
 .lights { position: relative; height: 340vh; background: var(--black); }
 .lights-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .lights-scene, .lights-shade, .scene, .scene img { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* The photos start below the sticky header so it never covers the rooflines. */
+.lights-scene { top: var(--header-h); height: calc(100% - var(--header-h)); }
 .scene { margin: 0; opacity: var(--vis, 0); }
 .scene:first-child { --vis: 1; }
 .scene img { object-fit: cover; object-position: 50% 50%; }
@@ -479,7 +481,7 @@ p { text-wrap: pretty; }
 
   /* Phones: the homes sit in the top part of the screen, the text below on black */
   .lights { height: 300vh; }
-  .lights-scene { height: 50%; }
+  .lights-scene { height: calc(50% - var(--header-h) / 2); }
   .lights-shade { background: linear-gradient(0deg, var(--black) 0%, rgba(0, 0, 0, 0) 30%), linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, 0) 22%); }
   .lights-copy { align-items: flex-end; padding-bottom: 104px; }
   .lights-caption { top: calc(var(--header-h) + 12px); bottom: auto; text-shadow: 0 1px 6px rgba(0, 0, 0, .8); }
