@@ -27,7 +27,7 @@ Still to do (details in `COMPLIANCE.md`):
 - **Prices:** Christmas lighting shows no prices (it's sold by phone or in-person consultation). Detailing uses your real package prices. The starred "Starting at" prices for gutters ($129*) and vehicle care ($79*) are still estimates: update them in `index.html`
 - **Membership:** Sterling and Sterling Reserve prices and inclusions (labeled as estimates)
 - **About section:** your story, and replace `images/team.svg` with a real photo
-- **Photos:** replace the illustrative photos with photos of your own jobs. The Christmas lighting animation uses `images/hero-lights.jpg` and a lights-off copy, `images/house-off.jpg`, and the bulb positions in `BULBS` at the top of `script.js` match that exact photo. If you change the house photo, ask for the bulbs to be re-mapped
+- **Photos:** replace the illustrative photos with photos of your own jobs. The Christmas lighting section shows three homes (`images/lights-suburban.jpg`, `images/hero-lights.jpg`, `images/lights-estate.jpg`) that light up in turn as you scroll. To swap one, replace the file with a night photo the same shape (16:9) and update its caption in `index.html` (`data-label`)
 - **Service area:** the city list and the ZIP check (`SERVED_PREFIXES` in `script.js`)
 - **Policies:** once the business is registered, add its legal name to the policy pages, and update the "Effective" date whenever you change a policy
 - **Reviews:** only add real reviews from real customers, with their permission

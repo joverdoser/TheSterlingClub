@@ -105,19 +105,22 @@
       </div>
     </section>
 
-    <!-- Christmas lighting: the house lights up as you scroll. Sold by consultation, so no prices are shown.
-         Bulb positions for the animation are in script.js (BULBS). -->
+    <!-- Christmas lighting: three homes light up in turn as you scroll (script.js). Sold by consultation, so no prices are shown. -->
     <section class="lights" id="lighting" aria-labelledby="lighting-h">
       <div class="lights-sticky">
         <div class="lights-scene" aria-hidden="true">
-          <img class="lights-off" src="images/house-off.jpg" alt="" width="1672" height="941" />
-          <canvas class="lights-lit" width="1672" height="941"></canvas>
-          <img class="lights-on" src="images/hero-lights.jpg" alt="" width="1672" height="941" />
-          <svg class="lights-bulbs" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid slice">
-            <defs><filter id="bulb-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" /></filter></defs>
-            <g class="bulbs-glow" filter="url(#bulb-glow)"></g>
-            <g class="bulbs-core"></g>
-          </svg>
+          <figure class="scene" data-label="Rooflines and a wrapped tree">
+            <img class="dim" src="images/lights-suburban.jpg" alt="" width="1672" height="941" />
+            <img class="lit" src="images/lights-suburban.jpg" alt="" width="1672" height="941" />
+          </figure>
+          <figure class="scene" data-label="Rooflines, dormers and door garland">
+            <img class="dim" src="images/hero-lights.jpg" alt="" width="1672" height="941" />
+            <img class="lit" src="images/hero-lights.jpg" alt="" width="1672" height="941" />
+          </figure>
+          <figure class="scene" data-label="Full estate: trees, garden and walkway">
+            <img class="dim" src="images/lights-estate.jpg" alt="" width="1672" height="941" />
+            <img class="lit" src="images/lights-estate.jpg" alt="" width="1672" height="941" />
+          </figure>
           <div class="lights-shade"></div>
         </div>
         <div class="wrap lights-copy">
@@ -135,7 +138,7 @@
             </div>
           </div>
         </div>
-        <div class="lights-meter" aria-hidden="true"><span></span></div>
+        <div class="lights-caption" aria-hidden="true"><span class="lights-label">Rooflines and a wrapped tree</span><span class="lights-steps"><i></i><i></i><i></i></span></div>
       </div>
     </section>
 

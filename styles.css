@@ -210,27 +210,28 @@ p { text-wrap: pretty; }
 .services-intro { padding-bottom: clamp(48px, 6vw, 72px); }
 .services-intro .section-head { margin-bottom: 0; }
 
-/* Christmas lighting: the house lights up as you scroll through this section (script.js) */
-.lights { position: relative; height: 290vh; background: var(--black); }
+/* Christmas lighting: three homes, each starting dark, light up in turn as a soft wave of light
+   sweeps across them (script.js). The lit layer is the same photo as the dark one, so they always line up. */
+.lights { position: relative; height: 340vh; background: var(--black); }
 .lights-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.lights-scene, .lights-scene img, .lights-scene canvas, .lights-bulbs, .lights-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
-.lights-scene img, .lights-scene canvas { object-fit: cover; object-position: 50% 50%; }
-.lights-on { opacity: var(--on, 0); }
-.lights-bulbs { opacity: var(--bulbs, 1); }
-.lights-bulbs circle { opacity: 0; transition: opacity .4s ease-out; }
-.bulbs-glow circle.on { opacity: .45; }
-/* Each bulb gives a brief warm spark as it switches on; the real bulb from the photo stays lit underneath. */
-.bulbs-core circle.on { animation: spark .9s ease-out forwards; transform-box: fill-box; transform-origin: center; }
-@keyframes spark { 0% { opacity: 1; transform: scale(1.6); } 100% { opacity: 0; transform: scale(.6); } }
-.bulbs-glow circle { fill: #FFCF8A; }
-.bulbs-core circle { fill: #FFF7E8; }
+.lights-scene, .lights-shade, .scene, .scene img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.scene { margin: 0; opacity: var(--vis, 0); }
+.scene:first-child { --vis: 1; }
+.scene img { object-fit: cover; object-position: 50% 50%; }
+.scene .dim { filter: brightness(.26) saturate(.25) contrast(1.05); }
+.scene .lit {
+  -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--s, 0) * 160% - 60%), transparent calc(var(--s, 0) * 160%));
+  mask-image: linear-gradient(100deg, #000 calc(var(--s, 0) * 160% - 60%), transparent calc(var(--s, 0) * 160%));
+}
 .lights-shade { background: linear-gradient(90deg, rgba(0, 0, 0, .86) 0%, rgba(0, 0, 0, .6) 32%, rgba(0, 0, 0, 0) 60%), linear-gradient(0deg, rgba(0, 0, 0, .55), transparent 28%); }
 .lights-copy { position: relative; height: 100%; display: flex; align-items: center; }
 .lights-card { max-width: 27rem; }
 .lights-card > p { margin-top: 16px; }
 .lights-card .checks { margin: 22px 0 28px; }
-.lights-meter { position: absolute; left: max(16px, (100% - 1200px) / 2); right: max(16px, (100% - 1200px) / 2); bottom: 28px; height: 1px; background: rgba(255, 255, 255, .16); }
-.lights-meter span { display: block; height: 100%; width: 100%; transform: scaleX(var(--p, 0)); transform-origin: left; background: #FFCF8A; }
+.lights-caption { position: absolute; left: max(16px, (100% - 1200px) / 2); right: max(16px, (100% - 1200px) / 2); bottom: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: var(--t-xs); color: var(--text); }
+.lights-steps { display: flex; gap: 6px; }
+.lights-steps i { width: 48px; height: 2px; background: rgba(255, 255, 255, .2); overflow: hidden; }
+.lights-steps i::after { content: ""; display: block; height: 100%; background: #FFCF8A; transform: scaleX(var(--f, 0)); transform-origin: left; }
 
 /* Service panels: each photo fades into the black instead of sitting in a box */
 .panel { position: relative; display: flex; align-items: center; min-height: min(100vh, 920px); padding: var(--section-y) 0; background: var(--onyx); overflow: hidden; }
@@ -476,11 +477,13 @@ p { text-wrap: pretty; }
   .nav-links .btn { margin-top: 18px; }
   .site-header:has(.nav-links.open) { background: var(--onyx); }
 
-  .lights { height: 240vh; }
-  .lights-scene img, .lights-scene canvas { object-position: 46% 50%; }
-  .lights-shade { background: linear-gradient(0deg, rgba(0, 0, 0, .92) 0%, rgba(0, 0, 0, .75) 42%, rgba(0, 0, 0, 0) 72%); }
-  .lights-copy { align-items: flex-end; padding-bottom: 112px; }
-  .lights-meter { bottom: 92px; }
+  /* Phones: the homes sit in the top part of the screen, the text below on black */
+  .lights { height: 300vh; }
+  .lights-scene { height: 50%; }
+  .lights-shade { background: linear-gradient(0deg, var(--black) 0%, rgba(0, 0, 0, 0) 30%), linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, 0) 22%); }
+  .lights-copy { align-items: flex-end; padding-bottom: 104px; }
+  .lights-caption { top: calc(var(--header-h) + 12px); bottom: auto; text-shadow: 0 1px 6px rgba(0, 0, 0, .8); }
+  .lights-steps i { width: 28px; }
   .panel { display: block; min-height: 0; padding: 0 0 72px; }
   .panel-media, .panel-flip .panel-media {
     position: relative; width: 100%; height: 78vw; max-height: 520px;
@@ -521,8 +524,8 @@ p { text-wrap: pretty; }
   .js .panel-media img { opacity: 1; scale: 1.03; translate: none; }
   .lights { height: auto; }
   .lights-sticky { position: relative; height: 100vh; height: 100svh; }
-  .lights-on { opacity: 1; }
-  .lights-bulbs { display: none; }
-  .lights-meter, .scroll-cue::after { display: none; }
+  .scene { --vis: 0; }
+  .scene:nth-child(2) { --vis: 1; --s: 1; }
+  .lights-caption, .scroll-cue::after { display: none; }
   .tier { transform: none; }
 }
