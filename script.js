@@ -1,7 +1,7 @@
 // ===== The Sterling Club — site scripts =====
 
 // Where booking requests are sent. Change this to your real email address.
-const BUSINESS_EMAIL = "reserve@thesterlingclub.com";
+const BUSINESS_EMAIL = "reserve@thesterlingclub.net";
 
 // Your CRM's web app address (see crm/SETUP.md), ending in /exec. While this is empty,
 // the form falls back to opening the visitor's email app.

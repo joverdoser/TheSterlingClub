@@ -20,7 +20,7 @@ Website for **The Sterling Club** — Christmas lighting, gutter and roofline ca
 
 ## Things to update
 
-Contact details are set: (786) 488-9561, reserve@thesterlingclub.com, Houston area.
+Contact details are set: (786) 488-9561, reserve@thesterlingclub.net, Houston area.
 
 Still to do (details in `COMPLIANCE.md`):
 

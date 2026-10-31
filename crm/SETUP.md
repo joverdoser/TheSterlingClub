@@ -27,7 +27,7 @@ At the top of `Code.gs`, in `CONFIG`:
 
 - **`NOTIFY_EMAIL`**: leave it blank to get alerts at the Gmail account running the script, or put another address in quotes.
 - **Text alerts**: choose one:
-  - **Free, T-Mobile or Verizon**: set `SMS_EMAIL` to your number at your carrier's text address, for example `'7135551234@tmomail.net'` (T-Mobile) or `'7135551234@vtext.com'` (Verizon). AT&T ended this service in 2025, so it won't work on AT&T.
+  - **Free, Metro by T-Mobile, T-Mobile or Verizon**: set `SMS_EMAIL` to your number at your carrier's text address: `'7864889561@mymetropcs.com'` (Metro by T-Mobile, already filled in for (786) 488-9561), `'7135551234@tmomail.net'` (T-Mobile) or `'7135551234@vtext.com'` (Verizon). AT&T ended this service in 2025, so it won't work on AT&T. If test alerts don't arrive by text on Metro, try the `@tmomail.net` address with the same number.
   - **Any carrier, with Twilio**: create a Twilio account and get a number. Set `TWILIO_TO` to your mobile number (like `'+17135551234'`). Then in step 4, add `TWILIO_SID`, `TWILIO_TOKEN` and `TWILIO_FROM`. US carriers require a one-time Twilio registration for business texting, which Twilio walks you through. It costs roughly $2 to $10 a month plus a one-time fee of around $20.
   - **No texts for now**: leave both blank and turn on Gmail notifications on your phone.
 
@@ -86,4 +86,4 @@ After pasting a new version of `Code.gs` or `Dashboard`, click **Deploy**, then 
 - **Gmail limits**: a regular Gmail account can send about 100 automated emails a day, plenty for this.
 - **Your customer list** is the Google Sheet. You can sort, filter or export it any time, and edit it directly. Keep the column headings as they are.
 - **Photos** are stored in the files folder, one folder per lead. The privacy policy says photos of people who don't become customers are deleted within 12 months, so clear old folders once a year.
-- **Your email address on the website**: the site and policies currently show `reserve@thesterlingclub.com`, but you own **thesterlingclub.net**. Change them to an address you actually receive, such as a `.net` address (Google Workspace, or free forwarding from your domain host to your Gmail) or your current Gmail. Otherwise customers who email the address on the site won't reach you.
+- **Your email address on the website** is `reserve@thesterlingclub.net`. Make sure it receives mail: set it up as a Google Workspace mailbox, or as free forwarding to your Gmail at the company where you registered thesterlingclub.net, then send it a test email.

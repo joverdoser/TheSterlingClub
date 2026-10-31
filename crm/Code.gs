@@ -18,9 +18,9 @@ const CONFIG = {
   BUSINESS_PHONE: '(786) 488-9561',
   // Where lead alerts go. Leave blank to use the Google account that runs this script.
   NOTIFY_EMAIL: '',
-  // Free text alerts through your carrier's email-to-text address, for example
-  // 7135551234@tmomail.net (T-Mobile) or 7135551234@vtext.com (Verizon). Leave blank to skip.
-  SMS_EMAIL: '',
+  // Free text alerts through your carrier's email-to-text address. Set for Metro by T-Mobile at (786) 488-9561.
+  // Others: 7135551234@tmomail.net (T-Mobile), 7135551234@vtext.com (Verizon). Leave blank to skip.
+  SMS_EMAIL: '7864889561@mymetropcs.com',
   // Text alerts through Twilio instead (works on any carrier): your mobile number, like +17135551234.
   // Also add TWILIO_SID, TWILIO_TOKEN and TWILIO_FROM in Script properties. Leave blank to skip.
   TWILIO_TO: '',
