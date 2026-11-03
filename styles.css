@@ -196,6 +196,17 @@ p { text-wrap: pretty; }
 .scroll-cue::before, .scroll-cue::after { content: ""; position: absolute; left: 50%; width: 1px; }
 .scroll-cue::before { top: 0; bottom: 0; background: rgba(255, 255, 255, .18); }
 .scroll-cue::after { top: 0; height: 40%; background: var(--white); animation: cue 2.4s 2s ease-in-out 3 both; }
+.hero-pause {
+  position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: calc(var(--header-h) + 16px); z-index: 2;
+  width: 44px; height: 44px; display: grid; place-items: center;
+  border-radius: 50%; border: 1px solid var(--rule); background: rgba(0, 0, 0, .4); color: var(--silver); cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.hero-pause[hidden] { display: none; }
+.hero-pause:hover { color: var(--white); border-color: var(--silver); }
+.hero-pause svg { width: 16px; height: 16px; }
+.hero-pause .i-play, .hero-pause[aria-pressed="true"] .i-pause { display: none; }
+.hero-pause[aria-pressed="true"] .i-play { display: block; }
 @keyframes cue { 0% { transform: scaleY(0); transform-origin: top; } 45% { transform: scaleY(1); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0) translateY(150%); transform-origin: bottom; } }
 
 /* ---------- Services ---------- */
@@ -479,6 +490,8 @@ p { text-wrap: pretty; }
   .nav-links .btn { margin-top: 18px; }
   .site-header:has(.nav-links.open) { background: var(--onyx); }
 
+  /* Phones: keep the hero controls above the bottom Call / Text / Book bar */
+  .scroll-cue { bottom: 76px; }
   /* Phones: the homes sit in the top part of the screen, the text below on black */
   .lights { height: 300vh; }
   .lights-scene { height: calc(50% - var(--header-h) / 2); }

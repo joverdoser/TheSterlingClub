@@ -1,4 +1,5 @@
 // ===== The Sterling Club — 3D silver monogram in the hero =====
+// It turns continuously and glints like polished sterling; the hero's pause button stops it.
 // The crowned SC monogram is extruded into polished silver and lit like a
 // chrome product shot: a dark room with a few bright strip lights. The flat SVG logo stays visible until this is ready, and
 // is what visitors see if WebGL is unavailable.
@@ -88,12 +89,72 @@ function start() {
   const logo = buildMonogram();
   scene.add(logo);
 
-  // A key light that drifts across the face, so highlights slide over the silver.
+  // A key light that keeps circling the logo, so reflections slide across the silver as it turns.
   const key = new THREE.DirectionalLight(0xffffff, 3);
   scene.add(key);
   const rim = new THREE.DirectionalLight(0xffffff, 1.2);
   rim.position.set(-2, 1.5, -2);
   scene.add(rim);
+
+  // Glints: small four-point stars that flash on the logo's edges, like light catching polished sterling.
+  const glintTexture = (() => {
+    const c = document.createElement("canvas");
+    c.width = c.height = 128;
+    const g = c.getContext("2d");
+    const core = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    core.addColorStop(0, "rgba(255,255,255,1)");
+    core.addColorStop(0.12, "rgba(255,255,255,.85)");
+    core.addColorStop(0.35, "rgba(255,255,255,.12)");
+    core.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = core;
+    g.fillRect(0, 0, 128, 128);
+    g.globalCompositeOperation = "lighter";
+    for (const [w, h] of [[128, 4], [4, 128]]) {
+      const ray = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+      ray.addColorStop(0, "rgba(255,255,255,.95)");
+      ray.addColorStop(1, "rgba(255,255,255,0)");
+      g.fillStyle = ray;
+      g.fillRect(64 - w / 2, 64 - h / 2, w, h);
+    }
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  })();
+  // Candidate spots: points on the front face's outlines.
+  const mesh = logo.children[0];
+  const pos = mesh.geometry.attributes.position;
+  let maxZ = -Infinity;
+  for (let i = 0; i < pos.count; i++) maxZ = Math.max(maxZ, pos.getZ(i));
+  const spots = [];
+  for (let i = 0; i < pos.count; i += 3) if (pos.getZ(i) > maxZ - 0.5) spots.push(new THREE.Vector3(pos.getX(i), pos.getY(i), maxZ + 3));
+  const glints = Array.from({ length: 4 }, () => {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glintTexture, color: 0xfff8ee, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    s.userData.born = -1;
+    mesh.add(s);
+    return s;
+  });
+  let nextGlint = 1.2;
+  function updateGlints(t, facing) {
+    if (t > nextGlint && facing > 0.35 && spots.length) {
+      const g = glints.find((s) => s.userData.born < 0);
+      if (g) {
+        g.position.copy(spots[Math.floor(Math.random() * spots.length)]);
+        g.position.z *= mesh.scale.x; // on whichever face is toward the viewer
+        g.userData.born = t;
+        g.userData.size = 170 + Math.random() * 110;
+      }
+      nextGlint = t + 0.3 + Math.random() * 0.7;
+    }
+    for (const g of glints) {
+      if (g.userData.born < 0) continue;
+      const life = (t - g.userData.born) / 0.9;
+      if (life >= 1) { g.userData.born = -1; g.material.opacity = 0; continue; }
+      const k = Math.sin(life * Math.PI);
+      g.material.opacity = k * Math.max(facing, 0);
+      g.material.rotation = life * 1.2;
+      g.scale.setScalar(g.userData.size * (0.4 + 0.6 * k));
+    }
+  }
 
   function resize() {
     const { clientWidth: w, clientHeight: h } = canvas;
@@ -116,27 +177,47 @@ function start() {
 
   const ease = (t) => 1 - Math.pow(1 - t, 3);
   const t0 = performance.now();
-  let last = "";
+  let lastNow = t0, turn = 0, paused = false;
   function frame(now) {
     const t = (now - t0) / 1000;
+    const dt = Math.min((now - lastNow) / 1000, 0.1);
+    lastNow = now;
     const intro = ease(Math.min(t / 2.2, 1));
-    // The gentle sway and drifting light settle after about 5 seconds; after that the logo
-    // only moves when the visitor moves the pointer or scrolls.
-    const settle = 1 - ease(Math.min(Math.max((t - 3.5) / 2, 0), 1));
-    const lt = Math.min(t, 5.5);
-    // Scrolling past the first screen spins the logo one full turn (eased), so it faces forward again as it leaves.
+    // A slow, continuous turn: one full revolution about every 10 seconds (stops while paused).
+    if (!paused) turn += dt * ((Math.PI * 2) / 10) * intro;
+    // Scrolling past the first screen adds one extra full turn (eased).
     const sp = Math.min(Math.max(window.scrollY / (window.innerHeight * 0.6), 0), 1);
     const spin = sp * sp * (3 - 2 * sp) * Math.PI * 2;
     pointer.x += (pointer.tx - pointer.x) * 0.06;
     pointer.y += (pointer.ty - pointer.y) * 0.06;
 
-    logo.rotation.y = (1 - intro) * -1.4 + Math.sin(t * 0.45) * 0.3 * intro * settle + pointer.x * 0.35 + spin;
+    logo.rotation.y = (1 - intro) * -1.4 + turn + pointer.x * 0.35 + spin;
     logo.rotation.x = -pointer.y * 0.16 + Math.sin(sp * Math.PI) * 0.28;
-    logo.position.y = Math.sin(t * 0.9) * 0.012 * settle;
-    key.position.set(Math.sin(lt * 0.6) * 3, 1.6 + Math.cos(lt * 0.4) * 0.6, 2.4);
-    // Skip drawing when nothing has visibly changed.
-    const state = [logo.rotation.y, logo.rotation.x, logo.position.y, key.position.x].map((v) => v.toFixed(4)).join();
-    if (state !== last) { renderer.render(scene, camera); last = state; }
+    logo.position.y = paused ? 0 : Math.sin(t * 0.9) * 0.012;
+    const lt = paused ? 0 : t;
+    key.position.set(Math.sin(lt * 0.8) * 3, 1.6 + Math.cos(lt * 0.5) * 0.8, 2.4 + Math.cos(lt * 0.8) * 0.8);
+    // Both faces read as "SC": while the back faces the viewer the model is mirrored. The swap happens
+    // when the logo is edge-on and paper-thin, so it can't be seen.
+    const facing = Math.cos(logo.rotation.y);
+    const side = facing < 0 ? -1 : 1;
+    if (mesh.scale.x !== side) {
+      mesh.scale.x = side;
+      glints.forEach((g) => { g.userData.born = -1; g.material.opacity = 0; });
+    }
+    if (!paused) updateGlints(t, Math.abs(facing));
+    renderer.render(scene, camera);
+  }
+
+  // Pause button: anything that moves on its own for more than 5 seconds needs one (WCAG 2.2.2).
+  const pauseBtn = document.querySelector(".hero-pause");
+  if (pauseBtn && !reduceMotion) {
+    pauseBtn.hidden = false;
+    pauseBtn.addEventListener("click", () => {
+      paused = !paused;
+      pauseBtn.setAttribute("aria-pressed", String(paused));
+      pauseBtn.setAttribute("aria-label", paused ? "Play logo animation" : "Pause logo animation");
+      glints.forEach((g) => { g.userData.born = -1; g.material.opacity = 0; });
+    });
   }
 
   hero.classList.add("is-3d");
