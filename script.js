@@ -151,6 +151,36 @@ toggle.addEventListener("click", () => setMenu(!navLinks.classList.contains("ope
 $$("a", navLinks).forEach((a) => a.addEventListener("click", () => setMenu(false)));
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
 
+// ---------- In-page links ----------
+// Menu and button links scroll to their section without adding "#membership" (etc.) to the
+// address. Otherwise a refresh, or reopening the page, jumps back to that section.
+// Shared links that include a section (like thesterlingclub.net/#book) still open there.
+document.addEventListener("click", (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const target = document.getElementById(a.getAttribute("href").slice(1));
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ block: "start" }); // smooth, and clear of the header, via CSS
+  // Move keyboard and screen reader focus to the section, as following the link would.
+  if (!target.matches("a, button, input, select, textarea, summary, [tabindex]")) target.setAttribute("tabindex", "-1");
+  target.focus({ preventScroll: true });
+});
+// If the page was opened with a section in the address (a shared link, or a link from the policy
+// pages), go to that section, then drop it from the address so a refresh stays put.
+const openedAt = location.hash && document.getElementById(location.hash.slice(1));
+if (openedAt) {
+  history.replaceState(null, "", location.pathname + location.search);
+  const goThere = () => openedAt.scrollIntoView({ block: "start", behavior: "instant" });
+  goThere();
+  // Once images and fonts have loaded the section may have moved, so line it up again,
+  // unless the visitor has already started scrolling.
+  let moved = false;
+  const stop = () => { moved = true; };
+  ["wheel", "touchstart", "keydown"].forEach((t) => addEventListener(t, stop, { once: true, passive: true }));
+  addEventListener("load", () => { if (!moved) goThere(); }, { once: true });
+}
+
 // ---------- Booking form helpers ----------
 const serviceSelect = $("#f-service");
 const msg = $("#f-msg");

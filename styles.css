@@ -72,6 +72,7 @@ h3 { font-size: clamp(var(--t-lg), 3vw, var(--t-xl)); line-height: 1.15; }
 h4 { font: 500 var(--t-base)/1.4 var(--sans); }
 p { text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 2px; }
+[tabindex="-1"]:focus { outline: none; } /* sections focused by in-page links */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .skip-link { position: absolute; left: 16px; top: -60px; z-index: 300; background: var(--white); color: var(--onyx); padding: 10px 16px; text-decoration: none; border-radius: var(--radius); }
