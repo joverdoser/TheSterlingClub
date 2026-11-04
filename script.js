@@ -29,28 +29,33 @@ $(".announce-close").addEventListener("click", () => {
 const header = $(".site-header");
 const toTop = $(".to-top");
 
-// ---------- Christmas lighting: three homes light up in turn as you scroll ----------
-// Each home gets a third of the section: it fades in dark, then a soft wave of light sweeps across it.
+// ---------- Christmas lighting: the home lights up when it comes into view ----------
+// The section scrolls like the rest of the page; once most of the photo is on screen,
+// a soft wave of light sweeps across the house over about 2.5 seconds (once).
 const lights = $("#lighting");
-const scenes = lights ? $$(".scene", lights) : [];
-const stepBars = lights ? $$(".lights-steps i", lights) : [];
-const sceneLabel = lights ? $(".lights-label", lights) : null;
-let shownLabel = -1;
-function updateLights() {
-  if (!lights || reduceMotion) return;
-  const r = lights.getBoundingClientRect();
-  const p = clamp(-r.top / Math.max(r.height - window.innerHeight, 1));
-  const seg = p * scenes.length;
-  const i = Math.min(Math.floor(seg), scenes.length - 1);
-  const local = seg - i;
-  scenes.forEach((s, k) => {
-    const vis = k < i ? 1 : k === i ? (k === 0 ? 1 : clamp(local / 0.15)) : 0;
-    const lit = k < i ? 1 : k === i ? clamp((local - (k === 0 ? 0.05 : 0.15)) / 0.6) : 0;
-    s.style.setProperty("--vis", vis.toFixed(3));
-    s.style.setProperty("--s", lit.toFixed(3));
-  });
-  stepBars.forEach((b, k) => b.style.setProperty("--f", (k < i ? 1 : k === i ? clamp(local / 0.8) : 0).toFixed(3)));
-  if (i !== shownLabel) { sceneLabel.textContent = scenes[i].dataset.label; shownLabel = i; }
+if (lights) {
+  const scene = $(".scene", lights);
+  const bar = $(".lights-steps i", lights);
+  const setLit = (v) => {
+    scene.style.setProperty("--s", v.toFixed(3));
+    if (bar) bar.style.setProperty("--f", v.toFixed(3));
+  };
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    setLit(1);
+  } else {
+    const lightIO = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      lightIO.disconnect();
+      const t0 = performance.now(), duration = 2600;
+      const step = (now) => {
+        const k = clamp((now - t0) / duration);
+        setLit(k * k * (3 - 2 * k));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, { threshold: 0.4 });
+    lightIO.observe(scene);
+  }
 }
 
 // ---------- Service photos drift slightly slower than the page ----------
@@ -73,7 +78,6 @@ function onScroll() {
     ticking = false;
     header.classList.toggle("scrolled", window.scrollY > 24);
     toTop.classList.toggle("show", window.scrollY > 900);
-    updateLights();
     updatePanels();
   });
 }
