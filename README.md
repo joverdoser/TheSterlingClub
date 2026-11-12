@@ -25,7 +25,7 @@ Contact details are set: (786) 488-9561, reserve@thesterlingclub.net, Houston ar
 Still to do (details in `COMPLIANCE.md`):
 
 - **Prices:** Christmas lighting and gutter cleaning show no prices (quoted by phone or in person). The mobile mechanic shows the $100 full synthetic oil change labor price. Detailing shows the Signature and Sterling package prices: update them in `index.html` when they change
-- **Membership:** Sterling and Sterling Reserve prices and inclusions (labeled as estimates)
+- **Membership:** Sterling $450 and Sterling Reserve $600 a month (prices for one car). Write the membership agreement (price, what is included, billing, cancellation) before taking the first member
 - **About section:** your story, and a real photo of you or your crew in place of the crest panel (instructions are in a comment in `index.html`)
 - **Photos:** replace the illustrative photos with photos of your own jobs. The Christmas lighting section shows one home (`images/lights-suburban.jpg`) that lights up when it comes into view. To swap it, replace the file with a night photo the same shape (16:9) and update its caption in `index.html` (`data-label`)
 - **Service area:** the city list and the ZIP check (`SERVED_PREFIXES` in `script.js`)
