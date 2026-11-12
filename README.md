@@ -26,7 +26,7 @@ Still to do (details in `COMPLIANCE.md`):
 
 - **Prices:** Christmas lighting and gutter cleaning show no prices (quoted by phone or in person). The mobile mechanic shows the $100 full synthetic oil change labor price. Detailing shows the Signature and Sterling package prices: update them in `index.html` when they change
 - **Membership:** Sterling $450 and Sterling Reserve $600 a month (prices for one car). Write the membership agreement (price, what is included, billing, cancellation) before taking the first member
-- **About section:** your story, and a real photo of you or your crew in place of the crest panel (instructions are in a comment in `index.html`)
+- **About section:** your story. The team photo is `images/team.jpg` (portrait, 3:4)
 - **Photos:** replace the illustrative photos with photos of your own jobs. The Christmas lighting section shows one home (`images/lights-suburban.jpg`) that lights up when it comes into view. To swap it, replace the file with a night photo the same shape (16:9) and update its caption in `index.html` (`data-label`)
 - **Service area:** the city list and the ZIP check (`SERVED_PREFIXES` in `script.js`)
 - **Policies:** once the business is registered, add its legal name to the policy pages, and update the "Effective" date whenever you change a policy

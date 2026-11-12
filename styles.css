@@ -335,20 +335,8 @@ p { text-wrap: pretty; }
 
 /* ---------- About and steps ---------- */
 .about { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(36px, 6vw, 96px); align-items: center; }
-.about-img { aspect-ratio: 6 / 7; overflow: hidden; }
+.about-img { aspect-ratio: 3 / 4; overflow: hidden; }
 .about-img img { width: 100%; height: 100%; object-fit: cover; }
-/* Crest panel: stands in for a team photo. Onyx with a soft silver glow and a fine inner frame. */
-.about-crest {
-  position: relative; margin: 0; display: grid; place-content: center; justify-items: center; gap: clamp(20px, 3vw, 32px);
-  color: #D9D9D9;
-  background:
-    url("images/grain.png") 0 0 / 128px 128px repeat,
-    radial-gradient(ellipse 65% 50% at 50% 42%, rgba(255, 255, 255, .1), transparent 72%),
-    var(--onyx);
-}
-.about-crest::before { content: ""; position: absolute; inset: 14px; border: 1px solid rgba(255, 255, 255, .14); pointer-events: none; }
-.about-crest-mark { width: clamp(84px, 30%, 150px); height: auto; aspect-ratio: 720 / 1138; filter: drop-shadow(0 10px 24px rgba(0, 0, 0, .55)); }
-.about-crest figcaption { font-size: var(--t-xs); letter-spacing: .32em; margin-right: -.32em; text-transform: uppercase; color: var(--silver); }
 .about-body > p { margin: 16px 0 36px; max-width: 36rem; }
 .promises { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 40px; }
 .promises div { border-top: 1px solid var(--rule); padding-top: 16px; }
