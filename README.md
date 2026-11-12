@@ -24,13 +24,15 @@ Contact details are set: (786) 488-9561, reserve@thesterlingclub.net, Houston ar
 
 Still to do (details in `COMPLIANCE.md`):
 
-- **Prices:** Christmas lighting shows no prices (it's sold by phone or in-person consultation). Detailing uses your real package prices. The starred "Starting at" prices for gutters ($129*) and vehicle care ($79*) are still estimates: update them in `index.html`
+- **Prices:** Christmas lighting and gutter cleaning show no prices (quoted by phone or in person). The mobile mechanic shows the $100 full synthetic oil change labor price. Detailing shows the Signature and Sterling package prices: update them in `index.html` when they change
 - **Membership:** Sterling and Sterling Reserve prices and inclusions (labeled as estimates)
-- **About section:** your story, and replace `images/team.svg` with a real photo
-- **Photos:** replace the illustrative photos with photos of your own jobs. The Christmas lighting section shows one home (`images/lights-suburban.jpg`) that lights up as you scroll. To swap it, replace the file with a night photo the same shape (16:9) and update its caption in `index.html` (`data-label`)
+- **About section:** your story, and a real photo of you or your crew in place of the crest panel (instructions are in a comment in `index.html`)
+- **Photos:** replace the illustrative photos with photos of your own jobs. The Christmas lighting section shows one home (`images/lights-suburban.jpg`) that lights up when it comes into view. To swap it, replace the file with a night photo the same shape (16:9) and update its caption in `index.html` (`data-label`)
 - **Service area:** the city list and the ZIP check (`SERVED_PREFIXES` in `script.js`)
 - **Policies:** once the business is registered, add its legal name to the policy pages, and update the "Effective" date whenever you change a policy
 - **Reviews:** only add real reviews from real customers, with their permission
+- **Web address:** the site's address (`https://joverdoser.github.io/TheSterlingClub/`) is written into `index.html` (search listing and link-preview tags), each policy page, `sitemap.xml` and `robots.txt`. If you move the site to thesterlingclub.net, update it in those places and regenerate the QR code on the business card
+- **Link preview image:** `images/share.jpg` is what shows when the site is texted or shared
 
 You can edit any file right on GitHub: open the file, click the pencil icon, make changes, then click **Commit changes**.
 

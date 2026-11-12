@@ -1,0 +1,8 @@
+# Search engines only read this file at the root of a domain, so it takes effect once the
+# site is on its own address (for example thesterlingclub.net). Update the sitemap line then.
+User-agent: *
+Allow: /
+Disallow: /crm/
+Disallow: /print/
+
+Sitemap: https://joverdoser.github.io/TheSterlingClub/sitemap.xml
